@@ -1,18 +1,18 @@
 const getRandomInteger = function (minNumber, maxNumber) {
   if(minNumber >= maxNumber || minNumber < 0 || maxNumber < 0) {
-    throw new Error('Оба числа должны быть неотрицательными. Первое число должно быть меньше второго.');
+    throw new Error('Первое число должно быть меньше второго. Оба числа должны быть неотрицательными.');
   }
-  const minNumberRounding = Math.ceil(minNumber);
-  const maxNumberRounding = Math.floor(maxNumber);
-  const number = minNumberRounding - 0.5 + Math.random() * (maxNumberRounding - minNumberRounding + 1);
+  minNumber = Math.ceil(minNumber);
+  maxNumber = Math.floor(maxNumber);
+  const number = minNumber - 0.5 + Math.random() * (maxNumber - minNumber + 1);
   return Math.round(number);
 };
 
 getRandomInteger(6, 9);
 
 const getRandomCoordinate =  function (minNumber, maxNumber, rounding) {
-  if(minNumber < 0 || maxNumber < 0 || minNumber >= maxNumber || rounding < 0 || rounding > 100) {
-    throw new Error('Все числа должны быть неотрицательными. Первое число должно быть меньше второго. Третье число должно находиться в диапазоне [0, 100].');
+  if(minNumber < 0 || maxNumber < 0 || minNumber >= maxNumber) {
+    throw new Error('Все числа должны быть неотрицательными. Первое число должно быть меньше второго.');
   }
   const number = (Math.random() * (maxNumber - minNumber) + minNumber);
   return Number(number.toFixed(rounding));
