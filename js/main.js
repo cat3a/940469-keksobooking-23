@@ -42,13 +42,35 @@ while (similarAvatarObjects.length < SIMILAR_OBJECT_COUNT) {
 
 const getAuthor = () => {
   const author = similarAvatarObjects[0];
-  similarAvatarObjects.splice(0,1);
+  similarAvatarObjects.splice(0, 1);
   return author;
 };
+
+const stickerStart = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
+const stickerEnd = ['квартиру', 'комнату', 'дворец', 'гараж'];
+
+const startCoordinate = 10;
+const endCoordinate = 20;
+const coordinateRounding = 10;
+
+const startPrice = 1000;
+const endPrice = 1000000;
+
+const houseType = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+
+const startRoom = 1;
+const endRoom = 25;
 
 const getObject = () =>
   ({
     author: {avatar: getAuthor()},
+    offer: {
+      title: `${stickerStart[getRandomInteger(0, stickerStart.length - 1)]} ${stickerEnd[getRandomInteger(0, stickerEnd.length - 1)]}`,
+      address: `${getRandomCoordinate(startCoordinate, endCoordinate, coordinateRounding)}, ${getRandomCoordinate(startCoordinate, endCoordinate, coordinateRounding)}`,
+      price: getRandomInteger(startPrice, endPrice),
+      type: `${houseType[getRandomInteger(0, houseType.length-1)]}`,
+      rooms: getRandomInteger(startRoom, endRoom),
+    },
   });
 
 const similarObjects = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(() => getObject());
