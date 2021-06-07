@@ -16,7 +16,7 @@ const getRandomCoordinate = (minNumber, maxNumber, rounding) => {
   return Number(number.toFixed(rounding));
 };
 
-//homework 2
+//TODO: homework 2
 const SIMILAR_OBJECT_COUNT = 10;
 const AUTHOR_START_COUNT = 1;
 const AUTHOR_END_COUNT = 8;
@@ -40,30 +40,30 @@ const getAuthor = () => {
   return author;
 };
 
-const stickerStarts = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
-const stickerEnds = ['квартиру', 'комнату', 'дворец', 'гараж'];
+const STICKER_STARTS = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
+const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж'];
 
-const startCoordinate = 10;
-const endCoordinate = 20;
-const coordinateRounding = 10;
+const START_COORDINATE = 10;
+const END_COORDINATE = 20;
+const COORDINATE_ROUNDING_ADDRESS = 10;
 
-const startPrice = 1000;
-const endPrice = 1000000;
+const START_PRICE = 1000;
+const END_PRICE = 1000000;
 
-const houseTypes = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const HOUSE_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-const startRoom = 1;
-const endRoom = 25;
+const START_ROOM = 1;
+const END_ROOM = 25;
 
-const startGuests = 1;
-const endGuests = 20;
+const START_GUEST = 1;
+const END_GUEST = 20;
 
-const chickensAndCheckouts = ['12:00', '13:00', '14:00'];
+const CHECKINS_AND_CHECKOUTS = ['12:00', '13:00', '14:00'];
 
-const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const getFeatureItem = () => features[getRandomInteger(0, features.length - 1)];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const getFeatureItem = () => FEATURES[getRandomInteger(0, FEATURES.length - 1)];
 const getFeatures = () => {
-  const feature = getRandomInteger(1, features.length);
+  const feature = getRandomInteger(1, FEATURES.length);
   const featuresObjects = [];
   for (let i = 0; i < feature; i++) {
     let featureItem = getFeatureItem();
@@ -75,15 +75,15 @@ const getFeatures = () => {
   return featuresObjects;
 };
 
-const descriptions = ['Современный интерьер, отличный дизайн.', 'Просто и по-домашнему. Здесь будет очень уютно.',
+const DESCRIPTIONS = ['Современный интерьер, отличный дизайн.', 'Просто и по-домашнему. Здесь будет очень уютно.',
   'Роскошный готический интерьер. Кажется, здесь мог бы поселиться сам Дракула.', 'Интерьер в стиле минимализма. Ничего лишнего.'];
-const descriptionAdditions = ['Возможно проживание с животными.', 'Все готово, можно заезжать и жить.', 'Есть место, для размещения собственной мебели.'];
+const DESCRIPTION_ADDITIONS = ['Возможно проживание с животными.', 'Все готово, можно заезжать и жить.', 'Есть место, для размещения собственной мебели.'];
 
-const photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const collectionStart = 1;
-const collectionEnd = 10;
-const getPhotos = () => new Array(getRandomInteger(collectionStart, collectionEnd)).fill(null).map(() => photos[getRandomInteger(0, photos.length - 1)]);
+const COLLECTION_START = 1;
+const COLLECTION_END = 10;
+const getPhotos = () => new Array(getRandomInteger(COLLECTION_START, COLLECTION_END)).fill(null).map(() => PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]);
 
 const START_LONGITUDE = 139.70000;
 const END_LONGITUDE = 139.80000;
@@ -95,16 +95,16 @@ const getObject = () =>
   ({
     author: {avatar: getAuthor()},
     offer: {
-      title: `${stickerStarts[getRandomInteger(0, stickerStarts.length - 1)]} ${stickerEnds[getRandomInteger(0, stickerEnds.length - 1)]}`,
-      address: `${getRandomCoordinate(startCoordinate, endCoordinate, coordinateRounding)}, ${getRandomCoordinate(startCoordinate, endCoordinate, coordinateRounding)}`,
-      price: getRandomInteger(startPrice, endPrice),
-      type: `${houseTypes[getRandomInteger(0, houseTypes.length - 1)]}`,
-      rooms: getRandomInteger(startRoom, endRoom),
-      guests: getRandomInteger(startGuests, endGuests),
-      checkin: `${chickensAndCheckouts[getRandomInteger(0, chickensAndCheckouts.length - 1)]}`,
-      checkout: `${chickensAndCheckouts[getRandomInteger(0, chickensAndCheckouts.length - 1)]}`,
+      title: `${STICKER_STARTS[getRandomInteger(0, STICKER_STARTS.length - 1)]} ${STICKER_ENDS[getRandomInteger(0, STICKER_ENDS.length - 1)]}`,
+      address: `${getRandomCoordinate(START_COORDINATE, END_COORDINATE, COORDINATE_ROUNDING_ADDRESS)}, ${getRandomCoordinate(START_COORDINATE, END_COORDINATE, COORDINATE_ROUNDING_ADDRESS)}`,
+      price: getRandomInteger(START_PRICE, END_PRICE),
+      type: `${HOUSE_TYPES[getRandomInteger(0, HOUSE_TYPES.length - 1)]}`,
+      rooms: getRandomInteger(START_ROOM, END_ROOM),
+      guests: getRandomInteger(START_GUEST, END_GUEST),
+      checkin: `${CHECKINS_AND_CHECKOUTS[getRandomInteger(0, CHECKINS_AND_CHECKOUTS.length - 1)]}`,
+      checkout: `${CHECKINS_AND_CHECKOUTS[getRandomInteger(0, CHECKINS_AND_CHECKOUTS.length - 1)]}`,
       features: getFeatures(),
-      description: `${descriptions[getRandomInteger(0, descriptions.length - 1)]} ${descriptionAdditions[getRandomInteger(0, descriptionAdditions.length - 1)]}`,
+      description: `${DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)]} ${DESCRIPTION_ADDITIONS[getRandomInteger(0, DESCRIPTION_ADDITIONS.length - 1)]}`,
       photos: getPhotos(),
     },
     location: {
@@ -115,4 +115,4 @@ const getObject = () =>
 
 const similarObjects = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(() => getObject());
 
-console.log(similarObjects);
+similarObjects;
