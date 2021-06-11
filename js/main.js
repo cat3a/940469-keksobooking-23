@@ -19,29 +19,31 @@ const getRandomCoordinate = (minNumber, maxNumber, rounding) => {
 //TODO: homework 2
 const SIMILAR_OBJECT_COUNT = 10;
 const AUTHOR_START_COUNT = 1;
-const AUTHOR_END_COUNT = 8;
-const NO_AVATAR = 'no-avatar';
+const AUTHOR_END_COUNT = 10;
 
-const getAvatar = () => `img/avatars/user0${getRandomInteger(AUTHOR_START_COUNT, AUTHOR_END_COUNT)}.png`;
 const similarAvatarObjects = [];
 for (let i = AUTHOR_START_COUNT; i <= AUTHOR_END_COUNT; i++) {
-  let avatar = getAvatar();
-  while (similarAvatarObjects.find((elem) => elem === avatar)) {
-    avatar = getAvatar();
-  }
+  const avatar = `img/avatars/user0${i}.png`;
   similarAvatarObjects.push(avatar);
 }
-while (similarAvatarObjects.length < SIMILAR_OBJECT_COUNT) {
-  similarAvatarObjects.push(NO_AVATAR);
-}
+const getShuffleElement = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+let similarAvatars =[];
+similarAvatars = getShuffleElement(similarAvatarObjects);
+
 const getAuthor = () => {
-  const author = similarAvatarObjects[0];
-  similarAvatarObjects.splice(0, 1);
+  const author = similarAvatars[0];
+  similarAvatars.splice(0, 1);
   return author;
 };
 
 const STICKER_STARTS = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
-const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж'];
+const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж', 'дачу'];
 
 const START_COORDINATE = 10;
 const END_COORDINATE = 20;
@@ -61,18 +63,16 @@ const END_GUEST = 20;
 const CHECKINS_AND_CHECKOUTS = ['12:00', '13:00', '14:00'];
 
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const getFeatureItem = () => FEATURES[getRandomInteger(0, FEATURES.length - 1)];
+
 const getFeatures = () => {
-  const feature = getRandomInteger(1, FEATURES.length);
-  const featuresObjects = [];
+  const feature = getRandomInteger(1, FEATURES.length); // получает произвольное число (длина массива)
+  const featuresObjects = getShuffleElement(FEATURES); // перемешивает массив
+  const featureObjects = [];
   for (let i = 0; i < feature; i++) {
-    let featureItem = getFeatureItem();
-    while (featuresObjects.find((elem) => elem === featureItem)) {
-      featureItem = getFeatureItem();
-    }
-    featuresObjects.push(featureItem);
+    const featureElement = featuresObjects[i];
+    featureObjects.push(`${featureElement}`);
   }
-  return featuresObjects;
+  return featureObjects;
 };
 
 const DESCRIPTIONS = ['Современный интерьер, отличный дизайн.', 'Просто и по-домашнему. Здесь будет очень уютно.',
