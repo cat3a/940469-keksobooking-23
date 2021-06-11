@@ -1,3 +1,34 @@
+const SIMILAR_OBJECT_COUNT = 10;
+const AUTHOR_START_COUNT = 1;
+const AUTHOR_END_COUNT = 10;
+const STICKER_STARTS = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
+const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж', 'дачу'];
+const START_COORDINATE = 10;
+const END_COORDINATE = 20;
+const COORDINATE_ROUNDING_ADDRESS = 10;
+const START_PRICE = 1000;
+const END_PRICE = 1000000;
+const HOUSE_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const START_ROOM = 1;
+const END_ROOM = 25;
+const START_GUEST = 1;
+const END_GUEST = 20;
+const CHECKINS_AND_CHECKOUTS = ['12:00', '13:00', '14:00'];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const DESCRIPTIONS = ['Современный интерьер, отличный дизайн.', 'Просто и по-домашнему. Здесь будет очень уютно.',
+  'Роскошный готический интерьер. Кажется, здесь мог бы поселиться сам Дракула.', 'Интерьер в стиле минимализма. Ничего лишнего.'];
+const DESCRIPTION_ADDITIONS = ['Возможно проживание с животными.', 'Все готово, можно заезжать и жить.', 'Есть место, для размещения собственной мебели.'];
+const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const COLLECTION_START = 1;
+const COLLECTION_END = 10;
+const START_LONGITUDE = 139.70000;
+const END_LONGITUDE = 139.80000;
+const START_LATITUDE = 35.65000;
+const END_LATITUDE = 35.70000;
+const COORDINATE_ROUNDING = 5;
+
 const getRandomInteger = (minNumber, maxNumber) => {
   if (minNumber >= maxNumber || minNumber < 0) {
     throw new Error('Первое число должно быть меньше второго. Оба числа должны быть неотрицательными.');
@@ -17,15 +48,12 @@ const getRandomCoordinate = (minNumber, maxNumber, rounding) => {
 };
 
 //TODO: homework 2
-const SIMILAR_OBJECT_COUNT = 10;
-const AUTHOR_START_COUNT = 1;
-const AUTHOR_END_COUNT = 10;
-
 const similarAvatarObjects = [];
 for (let i = AUTHOR_START_COUNT; i <= AUTHOR_END_COUNT; i++) {
   const avatar = `img/avatars/user0${i}.png`;
   similarAvatarObjects.push(avatar);
 }
+
 const getShuffleElement = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -33,7 +61,7 @@ const getShuffleElement = (array) => {
   }
   return array;
 };
-let similarAvatars =[];
+let similarAvatars = [];
 similarAvatars = getShuffleElement(similarAvatarObjects);
 
 const getAuthor = () => {
@@ -41,28 +69,6 @@ const getAuthor = () => {
   similarAvatars.splice(0, 1);
   return author;
 };
-
-const STICKER_STARTS = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
-const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж', 'дачу'];
-
-const START_COORDINATE = 10;
-const END_COORDINATE = 20;
-const COORDINATE_ROUNDING_ADDRESS = 10;
-
-const START_PRICE = 1000;
-const END_PRICE = 1000000;
-
-const HOUSE_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-
-const START_ROOM = 1;
-const END_ROOM = 25;
-
-const START_GUEST = 1;
-const END_GUEST = 20;
-
-const CHECKINS_AND_CHECKOUTS = ['12:00', '13:00', '14:00'];
-
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const getFeatures = () => {
   const feature = getRandomInteger(1, FEATURES.length); // получает произвольное число (длина массива)
@@ -75,21 +81,7 @@ const getFeatures = () => {
   return featureObjects;
 };
 
-const DESCRIPTIONS = ['Современный интерьер, отличный дизайн.', 'Просто и по-домашнему. Здесь будет очень уютно.',
-  'Роскошный готический интерьер. Кажется, здесь мог бы поселиться сам Дракула.', 'Интерьер в стиле минимализма. Ничего лишнего.'];
-const DESCRIPTION_ADDITIONS = ['Возможно проживание с животными.', 'Все готово, можно заезжать и жить.', 'Есть место, для размещения собственной мебели.'];
-
-const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const COLLECTION_START = 1;
-const COLLECTION_END = 10;
 const getPhotos = () => new Array(getRandomInteger(COLLECTION_START, COLLECTION_END)).fill(null).map(() => PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]);
-
-const START_LONGITUDE = 139.70000;
-const END_LONGITUDE = 139.80000;
-const START_LATITUDE = 35.65000;
-const END_LATITUDE = 35.70000;
-const COORDINATE_ROUNDING = 5;
 
 const getObject = () =>
   ({
