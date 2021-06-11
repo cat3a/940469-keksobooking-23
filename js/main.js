@@ -3,9 +3,6 @@ const AUTHOR_START_COUNT = 1;
 const AUTHOR_END_COUNT = 10;
 const STICKER_STARTS = ['Сдам в аренду', 'Продам', 'Куплю', 'Сниму'];
 const STICKER_ENDS = ['квартиру', 'комнату', 'дворец', 'гараж', 'дачу'];
-const START_COORDINATE = 10;
-const END_COORDINATE = 20;
-const COORDINATE_ROUNDING_ADDRESS = 10;
 const START_PRICE = 1000;
 const END_PRICE = 1000000;
 const HOUSE_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -83,12 +80,14 @@ const getFeatures = () => {
 
 const getPhotos = () => new Array(getRandomInteger(COLLECTION_START, COLLECTION_END)).fill(null).map(() => PHOTOS[getRandomInteger(0, PHOTOS.length - 1)]);
 
-const getObject = () =>
-  ({
+const getObject = () => {
+  const objectCoordinateLat = getRandomCoordinate(START_LATITUDE, END_LATITUDE, COORDINATE_ROUNDING);
+  const objectCoordinateLng = getRandomCoordinate(START_LONGITUDE, END_LONGITUDE, COORDINATE_ROUNDING);
+  return {
     author: {avatar: getAuthor()},
     offer: {
       title: `${STICKER_STARTS[getRandomInteger(0, STICKER_STARTS.length - 1)]} ${STICKER_ENDS[getRandomInteger(0, STICKER_ENDS.length - 1)]}`,
-      address: `${getRandomCoordinate(START_COORDINATE, END_COORDINATE, COORDINATE_ROUNDING_ADDRESS)}, ${getRandomCoordinate(START_COORDINATE, END_COORDINATE, COORDINATE_ROUNDING_ADDRESS)}`,
+      address: `${objectCoordinateLat} ${objectCoordinateLng}`,
       price: getRandomInteger(START_PRICE, END_PRICE),
       type: `${HOUSE_TYPES[getRandomInteger(0, HOUSE_TYPES.length - 1)]}`,
       rooms: getRandomInteger(START_ROOM, END_ROOM),
@@ -100,10 +99,11 @@ const getObject = () =>
       photos: getPhotos(),
     },
     location: {
-      lat: getRandomCoordinate(START_LATITUDE, END_LATITUDE, COORDINATE_ROUNDING),
-      lng: getRandomCoordinate(START_LONGITUDE, END_LONGITUDE, COORDINATE_ROUNDING),
+      lat: objectCoordinateLat,
+      lng: objectCoordinateLng,
     },
-  });
+  };
+};
 
 const similarObjects = new Array(SIMILAR_OBJECT_COUNT).fill(null).map(() => getObject());
 
