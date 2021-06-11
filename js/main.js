@@ -6,6 +6,6 @@ import './restrictions.js';
 import './server-data.js';
 
 similarObjects;
-/*//TODO:*/ console.log(similarObjects);
+//TODO: console.log(similarObjects);
 
 //TODO: Здесь будет инициализация карты.
