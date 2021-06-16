@@ -32,7 +32,8 @@ const COORDINATE_ROUNDING = 5;
 
 const similarAvatarObjects = [];
 for (let i = AUTHOR_START_COUNT; i <= AUTHOR_END_COUNT; i++) {
-  const avatar = `img/avatars/user0${i}.png`;
+  let avatar = '';
+  (i<10) ? avatar = `img/avatars/user0${i}.png` : avatar = `img/avatars/user${i}.png`;
   similarAvatarObjects.push(avatar);
 }
 
