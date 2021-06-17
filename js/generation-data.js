@@ -50,6 +50,7 @@ for (let i = 0; i <= similarObjects.length - 1; i++) {
     ticketPhotoElement.width = 45;
     ticketPhotoElement.height = 40;
     ticketPhotoElement.alt = 'Фотография жилья';
+    ticketPhotoElement.classList.add('popup__photo');
     ticketPhotosSelector.appendChild(ticketPhotoElement);
   }
   getVerification('.popup__photos', ticket, similarObjects[i].offer.photos.length === 0);
