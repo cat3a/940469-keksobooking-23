@@ -26,4 +26,10 @@ const getShuffleElement = (array) => {
   return array;
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement};
+const getVerification = (selector, container, condition) => {
+  if (condition) {
+    container.querySelector(selector).classList.add('hidden');
+  }
+};
+
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification};
