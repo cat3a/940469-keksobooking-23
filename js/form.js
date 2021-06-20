@@ -14,4 +14,4 @@ disableForm('ad-form--disabled', 'disabled', true);
 
 //TODO: Я пока не знаю когда и как должна сработать инициализация карты, поэтому пусть будет пока так:
 
-document.addEventListener('click', ()=> {disableForm();}, { once: true });
+document.addEventListener('click', ()=> {disableForm();}, {once: true});

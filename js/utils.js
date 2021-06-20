@@ -32,4 +32,42 @@ const getVerification = (selector, container, condition) => {
   }
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification};
+//TODO: 3 идущие далее функции, вероятно, потом станут одной, но я пока не знаю, как корректно передать условие.
+
+const restrictSelectForOne = (collection, condition, isSelect) => {
+  Array.from(collection).forEach((collectionItem) => collectionItem.setAttribute('disabled', 'disabled'));
+  for (const collectionItem of collection) {
+    if (collectionItem.textContent === condition) {
+      collectionItem.removeAttribute('disabled');
+      if (isSelect) {
+        collectionItem.setAttribute('selected', 'selected');
+      }
+    }
+  }
+};
+
+const restrictSelectForTwo = (collection, conditionOne, conditionTwo, isSelect) => {
+  Array.from(collection).forEach((collectionItem) => collectionItem.setAttribute('disabled', 'disabled'));
+  for (const collectionItem of collection) {
+    if (collectionItem.textContent === conditionOne || collectionItem.textContent === conditionTwo) {
+      collectionItem.removeAttribute('disabled');
+      if (isSelect) {
+        collectionItem.setAttribute('selected', 'selected');
+      }
+    }
+  }
+};
+
+const restrictSelectForThree = (collection, conditionOne, conditionTwo, conditionThree, isSelect) => {
+  Array.from(collection).forEach((collectionItem) => collectionItem.setAttribute('disabled', 'disabled'));
+  for (const collectionItem of collection) {
+    if (collectionItem.textContent === conditionOne || collectionItem.textContent === conditionTwo || collectionItem.textContent === conditionThree) {
+      collectionItem.removeAttribute('disabled');
+      if (isSelect) {
+        collectionItem.setAttribute('selected', 'selected');
+      }
+    }
+  }
+};
+
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelectForOne, restrictSelectForTwo, restrictSelectForThree};
