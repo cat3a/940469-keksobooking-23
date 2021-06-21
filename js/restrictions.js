@@ -54,12 +54,11 @@ priceInput.addEventListener('input', () => {
   priceInput.reportValidity();
 });
 
-const onRoomInputChange = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 
 restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
 
-const getRoom = (evt) => {
+const roomFilterChangeHandler = (evt) => {
   if (evt.target.value === ROOMS_CHECK['for 1 guest']) {
     restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
   } else if (evt.target.value === ROOMS_CHECK['for 2 guests']) {
@@ -71,4 +70,4 @@ const getRoom = (evt) => {
   }
 };
 
-onRoomInputChange.addEventListener('change', getRoom);
+addEventListener('change', roomFilterChangeHandler);
