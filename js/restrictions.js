@@ -1,6 +1,6 @@
 //TODO: Здесь будет реализована работа с ограничениями для полей ввода.
 
-import {restrictSelectForOne, restrictSelectForTwo, restrictSelectForThree} from './utils.js';
+import {restrictSelect} from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -45,18 +45,21 @@ priceInput.addEventListener('input', () => {
 
 const roomInput = document.querySelector('#room_number');
 const capacityInputItems = document.querySelector('#capacity').children;
+const capacitySelect = document.querySelector('#capacity');
 
-restrictSelectForOne(capacityInputItems,'для 1 гостя',true);
+
+
+restrictSelect(capacityInputItems,[1], capacitySelect);
 
 const getRoom = (evt) => {
   if (evt.target.value === '1') {
-    restrictSelectForOne(capacityInputItems, 'для 1 гостя', true);
+    restrictSelect(capacityInputItems,[1], capacitySelect);
   } else if (evt.target.value === '2') {
-    restrictSelectForTwo(capacityInputItems,'для 1 гостя','для 2 гостей',false);
+    restrictSelect(capacityInputItems,[1, 2], capacitySelect);
   } else if (evt.target.value === '3') {
-    restrictSelectForThree(capacityInputItems, 'для 1 гостя', 'для 2 гостей', 'для 3 гостей', false);
+    restrictSelect(capacityInputItems,[1, 2, 3], capacitySelect);
   } else if (evt.target.value === '100') {
-    restrictSelectForOne(capacityInputItems, 'не для гостей', true);
+    restrictSelect(capacityInputItems,[0], capacitySelect);
   }
 };
 
