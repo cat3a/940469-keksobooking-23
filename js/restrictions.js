@@ -4,9 +4,20 @@ import {restrictSelect} from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-
 const MIN_PRICE_VALUE = 1;
 const MAX_PRICE_VALUE = 1000000;
+const ROOMS_VALUES = {
+  'for 1 guest': [1],
+  'for 2 guests': [1, 2],
+  'for 3 guests': [1, 2, 3],
+  'not for guests': [0],
+};
+const ROOMS_CHECK = {
+  'for 1 guest': '1',
+  'for 2 guests': '2',
+  'for 3 guests': '3',
+  'not for guests': '100',
+};
 
 const titleInput = document.querySelector('#title');
 
@@ -43,24 +54,21 @@ priceInput.addEventListener('input', () => {
   priceInput.reportValidity();
 });
 
-const roomInput = document.querySelector('#room_number');
-const capacityInputItems = document.querySelector('#capacity').children;
+const onRoomInputChange = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 
-
-
-restrictSelect(capacityInputItems,[1], capacitySelect);
+restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
 
 const getRoom = (evt) => {
-  if (evt.target.value === '1') {
-    restrictSelect(capacityInputItems,[1], capacitySelect);
-  } else if (evt.target.value === '2') {
-    restrictSelect(capacityInputItems,[1, 2], capacitySelect);
-  } else if (evt.target.value === '3') {
-    restrictSelect(capacityInputItems,[1, 2, 3], capacitySelect);
-  } else if (evt.target.value === '100') {
-    restrictSelect(capacityInputItems,[0], capacitySelect);
+  if (evt.target.value === ROOMS_CHECK['for 1 guest']) {
+    restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
+  } else if (evt.target.value === ROOMS_CHECK['for 2 guests']) {
+    restrictSelect(ROOMS_VALUES['for 2 guests'], capacitySelect);
+  } else if (evt.target.value === ROOMS_CHECK['for 3 guests']) {
+    restrictSelect(ROOMS_VALUES['for 3 guests'], capacitySelect);
+  } else if (evt.target.value === ROOMS_CHECK['not for guests']) {
+    restrictSelect(ROOMS_VALUES['not for guests'], capacitySelect);
   }
 };
 
-roomInput.addEventListener('change', getRoom);
+onRoomInputChange.addEventListener('change', getRoom);

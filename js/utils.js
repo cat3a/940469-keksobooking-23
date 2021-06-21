@@ -35,7 +35,8 @@ const getVerification = (selector, container, condition) => {
 //TODO: 3 идущие далее функции, вероятно, потом станут одной, но я пока не знаю, как корректно передать условие.
 
 
-const restrictSelect = (collection, conditions, collectionParent) => {
+const restrictSelect = (conditions, collectionParent) => {
+  const collection = collectionParent.children;
   for (const collectionItem of collection) {
     collectionItem.disabled = true;
     if (conditions.includes(Number(collectionItem.value))) {
