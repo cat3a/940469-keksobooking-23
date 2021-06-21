@@ -32,4 +32,17 @@ const getVerification = (selector, container, condition) => {
   }
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification};
+const restrictSelect = (conditions, collectionParent) => {
+  const collection = collectionParent.children;
+  for (const collectionItem of collection) {
+    collectionItem.disabled = true;
+    if (conditions.includes(Number(collectionItem.value))) {
+      collectionItem.removeAttribute('disabled');
+      if (conditions[conditions.length-1] === Number(collectionItem.value)) {
+        collectionParent.selectedIndex = Array.from(collection).indexOf(collectionItem);
+      }
+    }
+  }
+};
+
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect};
