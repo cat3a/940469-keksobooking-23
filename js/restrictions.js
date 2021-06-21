@@ -12,7 +12,7 @@ const ROOMS_VALUES = {
   'for 3 guests': [1, 2, 3],
   'not for guests': [0],
 };
-const ROOMS_CHECK = {
+const ROOMS_CHECKS = {
   'for 1 guest': '1',
   'for 2 guests': '2',
   'for 3 guests': '3',
@@ -59,13 +59,13 @@ const capacitySelect = document.querySelector('#capacity');
 restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
 
 const roomFilterChangeHandler = (evt) => {
-  if (evt.target.value === ROOMS_CHECK['for 1 guest']) {
+  if (evt.target.value === ROOMS_CHECKS['for 1 guest']) {
     restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECK['for 2 guests']) {
+  } else if (evt.target.value === ROOMS_CHECKS['for 2 guests']) {
     restrictSelect(ROOMS_VALUES['for 2 guests'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECK['for 3 guests']) {
+  } else if (evt.target.value === ROOMS_CHECKS['for 3 guests']) {
     restrictSelect(ROOMS_VALUES['for 3 guests'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECK['not for guests']) {
+  } else if (evt.target.value === ROOMS_CHECKS['not for guests']) {
     restrictSelect(ROOMS_VALUES['not for guests'], capacitySelect);
   }
 };
