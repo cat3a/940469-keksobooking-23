@@ -3,15 +3,19 @@ const filterForm = document.querySelector('.map__filters');
 const ticketFormChildren = ticketForm.querySelectorAll('fieldset');
 const filterFormChildren = filterForm.children;
 
-const  disableForm = (selector='ad-form--disabled', token='disabled', booleanSwitch= false) => {
-  ticketForm.classList.toggle(selector, booleanSwitch);
-  ticketFormChildren.forEach((fieldset) => fieldset.toggleAttribute(token, booleanSwitch));
-  filterForm.classList.toggle(selector, booleanSwitch);
-  Array.from(filterFormChildren).forEach((fieldset) => fieldset.toggleAttribute(token, booleanSwitch));
+/*TODO: Я пока все-таки оставлю на самих формах добавление/снятие класса, так как исходя из ТЗ сильно напрашивается. Меня смущает:
+Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
+  а на её интерактивные элементы атрибуты disabled".
+*/
+const  formEnableHandler = (selector='ad-form--disabled', isDisabled= false) => {
+  ticketForm.classList.toggle(selector, isDisabled);
+  ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
+  filterForm.classList.toggle(selector, isDisabled);
+  Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-disableForm('ad-form--disabled', 'disabled', true);
+formEnableHandler('ad-form--disabled',true);
 
 //TODO: Я пока не знаю когда и как должна сработать инициализация карты, поэтому пусть будет пока так:
 
-document.addEventListener('click', ()=> {disableForm();});
+document.addEventListener('click', ()=> {formEnableHandler();});

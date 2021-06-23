@@ -32,17 +32,29 @@ const getVerification = (selector, container, condition) => {
   }
 };
 
+//TODO: Над этой функцией я еще подумаю и поэкспериментирую:
+
 const restrictSelect = (conditions, collectionParent) => {
-  const collection = collectionParent.children;
-  for (const collectionItem of collection) {
-    collectionItem.disabled = true;
+  const collectionItems = collectionParent.children;
+  for (const collectionItem of collectionItems) {
+    collectionItem.disabled = !conditions.includes(collectionItem.value);
     if (conditions.includes(Number(collectionItem.value))) {
       collectionItem.removeAttribute('disabled');
       if (conditions[conditions.length-1] === Number(collectionItem.value)) {
-        collectionParent.selectedIndex = Array.from(collection).indexOf(collectionItem);
+        collectionParent.selectedIndex = Array.from(collectionItems).indexOf(collectionItem);
       }
     }
   }
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect};
+const timeChangeHandler = (selectItems, linkedItems) => (evt) => {
+  Array.from(selectItems).forEach(() => {
+    for (const linkedItem of linkedItems) {
+      if (linkedItem.value === evt.target.value) {
+        linkedItem.selected = true;
+      }
+    }
+  });
+};
+
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler};
