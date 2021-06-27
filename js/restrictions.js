@@ -53,8 +53,6 @@ titleInput.addEventListener('input', () => {
 
 const priceInput = document.querySelector('#price');
 
-const getPriceValue = () => document.querySelector('#price').min;
-
 const capacitySelect = document.querySelector('#capacity');
 
 const roomSelect = document.querySelector('#room_number');
@@ -74,7 +72,6 @@ priceInput.placeholder = HOUSE_PRICES['flat'];
 const houseChangeHandler = (evt) => {
   priceInput.min = HOUSE_PRICES[evt.target.value];
   priceInput.placeholder = HOUSE_PRICES[evt.target.value];
-  getPriceValue();
 };
 
 houseSelect.addEventListener('change', houseChangeHandler);
@@ -86,8 +83,8 @@ timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
 
 timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
 
-const inputListenHandler = (getPriceItem) => () => {
-  const price = getPriceItem();
+const inputListenHandler = () => {
+  const price  = document.querySelector('#price').min;
   if (priceInput.value < Number(price)) {
     priceInput.setCustomValidity(`Цена может быть только числом больше ${price}.`);
     priceInput.style.backgroundColor = '#ffdee6';
@@ -101,4 +98,4 @@ const inputListenHandler = (getPriceItem) => () => {
   priceInput.reportValidity();
 };
 
-priceInput.addEventListener('input', inputListenHandler(getPriceValue), false);
+priceInput.addEventListener('input', inputListenHandler, false);
