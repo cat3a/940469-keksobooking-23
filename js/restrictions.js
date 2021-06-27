@@ -98,4 +98,4 @@ const inputListenHandler = () => {
   priceInput.reportValidity();
 };
 
-priceInput.addEventListener('input', inputListenHandler, false);
+priceInput.addEventListener('input', inputListenHandler);
