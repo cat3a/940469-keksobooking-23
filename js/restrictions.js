@@ -7,7 +7,7 @@ const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_VALUE = 1000000;
 
 const ROOMS = {
-  'for 1 guest': {
+  'for 1 guests': {
     values: [1],
     checked: '1',
   },
@@ -19,7 +19,7 @@ const ROOMS = {
     values: [1, 2, 3],
     checked: '3',
   },
-  'not for guests': {
+  'for 100 guests': {
     values: [0],
     checked: '100',
   },
@@ -57,48 +57,36 @@ const getPriceValue = () => document.querySelector('#price').min;
 
 const capacitySelect = document.querySelector('#capacity');
 
-restrictSelect(ROOMS['for 1 guest']['values'], capacitySelect);
+const roomSelect = document.querySelector('#room_number');
+
+restrictSelect(ROOMS['for 1 guests']['values'], capacitySelect);
 
 const roomChangeHandler = (evt) => {
-  if (evt.target.value === ROOMS['for 1 guest']['checked']) {
-    restrictSelect(ROOMS['for 1 guest']['values'], capacitySelect);
-  } else if (evt.target.value === ROOMS['for 2 guests']['checked']) {
-    restrictSelect(ROOMS['for 2 guests']['values'], capacitySelect);
-  } else if (evt.target.value === ROOMS['for 3 guests']['checked']) {
-    restrictSelect(ROOMS['for 3 guests']['values'], capacitySelect);
-  } else if (evt.target.value === ROOMS['not for guests']['checked']) {
-    restrictSelect(ROOMS['not for guests']['values'], capacitySelect);
-  }
+  restrictSelect(ROOMS[`for ${evt.target.value} guests`]['values'], capacitySelect);
 };
 
-addEventListener('change', roomChangeHandler);
+roomSelect.addEventListener('change', roomChangeHandler);
 
-const houseTypes = document.querySelector('#type').children;
+const houseSelect = document.querySelector('#type');
 priceInput.min = HOUSE_PRICES['flat'];
 priceInput.placeholder = HOUSE_PRICES['flat'];
 
 const houseChangeHandler = (evt) => {
-  const keys = Object.keys(HOUSE_PRICES);
-  for (let i = 0; i <= houseTypes.length; i++) {
-    if (evt.target.value === keys[i]) {
-      const values = Object.values(HOUSE_PRICES);
-      priceInput.min = values[i];
-      priceInput.placeholder = values[i];
-      getPriceValue();
-    }
-  }
+  priceInput.min = HOUSE_PRICES[evt.target.value];
+  priceInput.placeholder = HOUSE_PRICES[evt.target.value];
+  getPriceValue();
 };
 
-addEventListener('change', houseChangeHandler);
+houseSelect.addEventListener('change', houseChangeHandler);
 
-const timeIns = document.querySelector('#timein').children;
-const timeOuts = document.querySelector('#timeout').children;
+const timeInSelect = document.querySelector('#timein');
+const timeOutSelect = document.querySelector('#timeout');
 
-addEventListener('change', timeChangeHandler(timeIns, timeOuts), false);
+timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
 
-addEventListener('change', timeChangeHandler(timeOuts, timeIns), false);
+timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
 
-const  inputListenHandler = (getPriceItem) => () => {
+const inputListenHandler = (getPriceItem) => () => {
   const price = getPriceItem();
   if (priceInput.value < Number(price)) {
     priceInput.setCustomValidity(`Цена может быть только числом больше ${price}.`);

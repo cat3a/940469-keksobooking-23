@@ -40,21 +40,15 @@ const restrictSelect = (conditions, collectionParent) => {
     collectionItem.disabled = !conditions.includes(collectionItem.value);
     if (conditions.includes(Number(collectionItem.value))) {
       collectionItem.removeAttribute('disabled');
-      if (conditions[conditions.length-1] === Number(collectionItem.value)) {
+      if (conditions[conditions.length - 1] === Number(collectionItem.value)) {
         collectionParent.selectedIndex = Array.from(collectionItems).indexOf(collectionItem);
       }
     }
   }
 };
 
-const timeChangeHandler = (selectItems, linkedItems) => (evt) => {
-  Array.from(selectItems).forEach(() => {
-    for (const linkedItem of linkedItems) {
-      if (linkedItem.value === evt.target.value) {
-        linkedItem.selected = true;
-      }
-    }
-  });
+const timeChangeHandler = (linkedItems) => (evt) => {
+  linkedItems.value = evt.target.value;
 };
 
 export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler};
