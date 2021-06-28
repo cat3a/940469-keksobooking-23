@@ -1,22 +1,36 @@
 //TODO: Здесь будет реализована работа с ограничениями для полей ввода.
 
-import {restrictSelect} from './utils.js';
+import {restrictSelect, timeChangeHandler} from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const MIN_PRICE_VALUE = 1;
 const MAX_PRICE_VALUE = 1000000;
-const ROOMS_VALUES = {
-  'for 1 guest': [1],
-  'for 2 guests': [1, 2],
-  'for 3 guests': [1, 2, 3],
-  'not for guests': [0],
+
+const ROOMS = {
+  'for 1 guests': {
+    values: [1],
+    checked: '1',
+  },
+  'for 2 guests': {
+    values: [1, 2],
+    checked: '2',
+  },
+  'for 3 guests': {
+    values: [1, 2, 3],
+    checked: '3',
+  },
+  'for 100 guests': {
+    values: [0],
+    checked: '100',
+  },
 };
-const ROOMS_CHECKS = {
-  'for 1 guest': '1',
-  'for 2 guests': '2',
-  'for 3 guests': '3',
-  'not for guests': '100',
+
+const HOUSE_PRICES = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
 const titleInput = document.querySelector('#title');
@@ -39,9 +53,40 @@ titleInput.addEventListener('input', () => {
 
 const priceInput = document.querySelector('#price');
 
-priceInput.addEventListener('input', () => {
-  if (priceInput.value < MIN_PRICE_VALUE) {
-    priceInput.setCustomValidity('Цена может быть только числом больше 0.');
+const capacitySelectItems = document.querySelector('#capacity').children;
+
+const roomSelect = document.querySelector('#room_number');
+
+restrictSelect(ROOMS['for 1 guests']['values'], capacitySelectItems);
+
+const roomChangeHandler = (evt) => {
+  restrictSelect(ROOMS[`for ${evt.target.value} guests`]['values'], capacitySelectItems);
+};
+
+roomSelect.addEventListener('change', roomChangeHandler);
+
+const houseSelect = document.querySelector('#type');
+priceInput.min = HOUSE_PRICES['flat'];
+priceInput.placeholder = HOUSE_PRICES['flat'];
+
+const houseChangeHandler = (evt) => {
+  priceInput.min = HOUSE_PRICES[evt.target.value];
+  priceInput.placeholder = HOUSE_PRICES[evt.target.value];
+};
+
+houseSelect.addEventListener('change', houseChangeHandler);
+
+const timeInSelect = document.querySelector('#timein');
+const timeOutSelect = document.querySelector('#timeout');
+
+timeInSelect.addEventListener('change', timeChangeHandler(timeOutSelect));
+
+timeOutSelect.addEventListener('change', timeChangeHandler(timeInSelect));
+
+const inputListenHandler = () => {
+  const price  = document.querySelector('#price').min;
+  if (priceInput.value < Number(price)) {
+    priceInput.setCustomValidity(`Цена может быть только числом больше ${price}.`);
     priceInput.style.backgroundColor = '#ffdee6';
   } else if (priceInput.value >= MAX_PRICE_VALUE) {
     priceInput.setCustomValidity('Цена  не может быть больше 1000000.');
@@ -50,24 +95,7 @@ priceInput.addEventListener('input', () => {
     priceInput.setCustomValidity('');
     priceInput.style.backgroundColor = 'white';
   }
-
   priceInput.reportValidity();
-});
-
-const capacitySelect = document.querySelector('#capacity');
-
-restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
-
-const roomFilterChangeHandler = (evt) => {
-  if (evt.target.value === ROOMS_CHECKS['for 1 guest']) {
-    restrictSelect(ROOMS_VALUES['for 1 guest'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECKS['for 2 guests']) {
-    restrictSelect(ROOMS_VALUES['for 2 guests'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECKS['for 3 guests']) {
-    restrictSelect(ROOMS_VALUES['for 3 guests'], capacitySelect);
-  } else if (evt.target.value === ROOMS_CHECKS['not for guests']) {
-    restrictSelect(ROOMS_VALUES['not for guests'], capacitySelect);
-  }
 };
 
-addEventListener('change', roomFilterChangeHandler);
+priceInput.addEventListener('input', inputListenHandler);
