@@ -34,17 +34,12 @@ const getVerification = (selector, container, condition) => {
 
 //TODO: Над этой функцией я еще подумаю и поэкспериментирую:
 
-const restrictSelect = (conditions, collectionParent) => {
-  const collectionItems = collectionParent.children;
-  for (const collectionItem of collectionItems) {
-    collectionItem.disabled = !conditions.includes(collectionItem.value);
-    if (conditions.includes(Number(collectionItem.value))) {
-      collectionItem.removeAttribute('disabled');
-      if (conditions[conditions.length - 1] === Number(collectionItem.value)) {
-        collectionParent.selectedIndex = Array.from(collectionItems).indexOf(collectionItem);
-      }
-    }
-  }
+const restrictSelect = (conditions, collectionItems) => {
+  Array.from(collectionItems).forEach((collectionItem) => {
+    collectionItem.disabled = !conditions.includes(Number(collectionItem.value));
+    collectionItem.enabled = conditions.includes(Number(collectionItem.value));
+    collectionItem.selected = !(collectionItem.disabled + conditions.length - 1);
+  });
 };
 
 const timeChangeHandler = (linkedItems) => (evt) => {

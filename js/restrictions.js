@@ -53,14 +53,14 @@ titleInput.addEventListener('input', () => {
 
 const priceInput = document.querySelector('#price');
 
-const capacitySelect = document.querySelector('#capacity');
+const capacitySelectItems = document.querySelector('#capacity').children;
 
 const roomSelect = document.querySelector('#room_number');
 
-restrictSelect(ROOMS['for 1 guests']['values'], capacitySelect);
+restrictSelect(ROOMS['for 1 guests']['values'], capacitySelectItems);
 
 const roomChangeHandler = (evt) => {
-  restrictSelect(ROOMS[`for ${evt.target.value} guests`]['values'], capacitySelect);
+  restrictSelect(ROOMS[`for ${evt.target.value} guests`]['values'], capacitySelectItems);
 };
 
 roomSelect.addEventListener('change', roomChangeHandler);
