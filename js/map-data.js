@@ -1,4 +1,3 @@
-import {formEnableHandler} from './form.js';
 import {getRandomCoordinate, getRandomInteger, getShuffleElement} from './utils.js';
 
 //TODO: Модуль для работы с картой.

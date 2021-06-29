@@ -9,8 +9,8 @@ const map = L.map('map-canvas')
     formEnableHandler();
   })
   .setView({
-    lat: 35.6894,
-    lng: 139.692,
+    lat: 35.675,
+    lng: 139.75,
   }, 12);
 
 L.tileLayer(
@@ -28,8 +28,8 @@ const mainPinIcon = L.icon({
 
 const markerMain = L.marker(
   {
-    lat: 35.6894,
-    lng: 139.692,
+    lat: 35.675,
+    lng: 139.75,
   },
   {
     draggable: true,
@@ -40,7 +40,7 @@ const markerMain = L.marker(
 markerMain.addTo(map);
 
 const addressInput = document.querySelector('#address');
-addressInput.value = `${Number(35.6894).toFixed(5)}, ${Number(139.692).toFixed(5)}`;
+addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
 
 markerMain.on('moveend', (evt) => {
   addressInput.value = `${evt.target.getLatLng()}`.slice(7, -1).split(',').map((coordinate) => (Number(coordinate).toFixed(5))).join(', ');
@@ -53,16 +53,16 @@ const sendForm = document.querySelector('.ad-form');
 sendForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   markerMain.setLatLng({
-    lat: 35.6894,
-    lng: 139.692,
+    lat: 35.675,
+    lng: 139.75,
   });
 
   map.setView({
-    lat: 35.6894,
-    lng: 139.692,
+    lat: 35.675,
+    lng: 139.75,
   }, 12);
 
-  addressInput.value = `${Number(35.6894).toFixed(5)}, ${Number(139.692).toFixed(5)}`;
+  addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
 });
 
 const tickets = [];
