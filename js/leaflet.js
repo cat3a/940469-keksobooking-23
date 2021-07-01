@@ -4,13 +4,16 @@ import {getTickets} from './generation-data.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
+const CENTER_TOKIO_LATITUDE = 35.675;
+const CENTER_TOKIO_LONGITUDE = 139.75;
+
 const map = L.map('map-canvas')
   .on('load', () => {
     formEnableHandler();
   })
   .setView({
-    lat: 35.675,
-    lng: 139.75,
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
   }, 12);
 
 L.tileLayer(
@@ -28,8 +31,8 @@ const mainPinIcon = L.icon({
 
 const markerMain = L.marker(
   {
-    lat: 35.675,
-    lng: 139.75,
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
   },
   {
     draggable: true,
@@ -40,7 +43,7 @@ const markerMain = L.marker(
 markerMain.addTo(map);
 
 const addressInput = document.querySelector('#address');
-addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
+addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 
 markerMain.on('moveend', (evt) => {
   addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
@@ -53,16 +56,16 @@ const sendForm = document.querySelector('.ad-form');
 sendForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   markerMain.setLatLng({
-    lat: 35.675,
-    lng: 139.75,
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
   });
 
   map.setView({
-    lat: 35.675,
-    lng: 139.75,
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
   }, 12);
 
-  addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
+  addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 });
 
 const createMarker = (similarObject, tickets, item) => {
