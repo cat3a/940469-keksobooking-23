@@ -43,7 +43,7 @@ const addressInput = document.querySelector('#address');
 addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
 
 markerMain.on('moveend', (evt) => {
-  addressInput.value = `${evt.target.getLatLng()}`.slice(7, -1).split(',').map((coordinate) => (Number(coordinate).toFixed(5))).join(', ');
+  addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
 });
 
 //TODO: Вернуть метку при отправке формы в начальное положение.
