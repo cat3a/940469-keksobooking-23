@@ -2,7 +2,7 @@ import {formEnableHandler} from './form.js';
 import {similarObjects} from './map-data.js';
 import {getTickets} from './generation-data.js';
 
-//TODO: Здесь начинается использование Leaflet.
+//TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -49,7 +49,7 @@ markerMain.on('moveend', (evt) => {
 //TODO: Вернуть метку при отправке формы в начальное положение.
 const sendForm = document.querySelector('.ad-form');
 
-//TODO: я потом этот обработчик видоизменю, исходя из ТЗ. А пока он просто возвращает метку на место.
+//TODO: Я потом этот обработчик видоизменю, исходя из ТЗ. А пока он просто возвращает метку на место.
 sendForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   markerMain.setLatLng({
