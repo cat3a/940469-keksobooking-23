@@ -65,23 +65,15 @@ sendForm.addEventListener('submit', (evt) => {
   addressInput.value = `${Number(35.675).toFixed(5)}, ${Number(139.75).toFixed(5)}`;
 });
 
-const tickets = [];
-
-Array.from(getTickets().children).forEach((ticket) => {
-  tickets.push(ticket);
-});
-
-let item = 0;
-
-const createMarker = (point) => {
+const createMarker = (similarObject, tickets, item) => {
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const lat = point.location.lat;
-  const lng = point.location.lng;
+  const lat = similarObject.location.lat;
+  const lng = similarObject.location.lng;
   const marker = L.marker(
     {
       lat,
@@ -99,9 +91,10 @@ const createMarker = (point) => {
         keepInView: true,
       },
     );
-  item++;
 };
 
-similarObjects.forEach((point) => {
-  createMarker(point);
+similarObjects.forEach((similarObject, item= 0) => {
+  const tickets = getTickets();
+  createMarker(similarObject, tickets, item);
+  item ++;
 });
