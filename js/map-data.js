@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomCoordinate, getShuffleElement} from './utils.js';
+import {getRandomCoordinate, getRandomInteger, getShuffleElement} from './utils.js';
 
 //TODO: Модуль для работы с картой.
 
@@ -32,7 +32,7 @@ const COORDINATE_ROUNDING = 5;
 
 const similarAvatarObjects = [];
 for (let i = AUTHOR_START_COUNT; i <= AUTHOR_END_COUNT; i++) {
-  const avatar = `img/avatars/user${i.toString().padStart( 2, '0')}.png`;
+  const avatar = `img/avatars/user${i.toString().padStart(2, '0')}.png`;
   similarAvatarObjects.push(avatar);
 }
 

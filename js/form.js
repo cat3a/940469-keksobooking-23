@@ -16,6 +16,4 @@ const  formEnableHandler = (selector='ad-form--disabled', isDisabled= false) => 
 
 formEnableHandler('ad-form--disabled',true);
 
-//TODO: Я пока не знаю когда и как должна сработать инициализация карты, поэтому пусть будет пока так:
-
-document.addEventListener('click', ()=> {formEnableHandler();});
+export {formEnableHandler};

@@ -32,7 +32,7 @@ const getVerification = (selector, container, condition) => {
   }
 };
 
-//TODO: Над этой функцией я еще подумаю и поэкспериментирую:
+//TODO: С этой функцией я пока даже не знаю что делать, хоть по индексам обращайся к элементам. Но я про нее помню.
 
 const restrictSelect = (conditions, collectionItems) => {
   Array.from(collectionItems).forEach((collectionItem) => {
