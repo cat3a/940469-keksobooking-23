@@ -1,6 +1,6 @@
 import {formEnableHandler} from './form.js';
-import {similarObjects} from './map-data.js';
 import {getTickets} from './generation-data.js';
+import {createFetch} from './server-data.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
@@ -68,15 +68,16 @@ sendForm.addEventListener('submit', (evt) => {
   addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 });
 
-const createMarker = (similarObject, tickets, item) => {
+const createMarker = (similarObject) => {
+  const {location, offer, author} = similarObject;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const lat = similarObject.location.lat;
-  const lng = similarObject.location.lng;
+  const lat = Number(location.lat);
+  const lng = Number(location.lng);
   const marker = L.marker(
     {
       lat,
@@ -89,15 +90,21 @@ const createMarker = (similarObject, tickets, item) => {
 
   marker
     .addTo(map)
-    .bindPopup(tickets[item],
+    .bindPopup(getTickets(offer, author),
       {
         keepInView: true,
       },
     );
 };
 
-similarObjects.forEach((similarObject, item= 0) => {
-  const tickets = getTickets();
-  createMarker(similarObject, tickets, item);
-  item ++;
-});
+const fetchData = createFetch(
+  (data) => {
+    data.forEach((similarObject) => {
+      createMarker(similarObject);
+    });
+  },
+  (err) => {
+    throw new Error(err);
+  });
+
+fetchData();
