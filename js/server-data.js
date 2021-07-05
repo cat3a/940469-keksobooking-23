@@ -1,7 +1,11 @@
 //TODO: Модуль для обмена данными по сети.
 
-const createFetch = (onSuccess, onError) => () => fetch(
-  'https://23.javascript.pages.academy/keksobooking/data',
+import {showAlert} from './utils.js';
+
+const DATA_RECEVE_ADDRESS = 'https://23.javascript.pages.academy/keksobooking/data';
+
+const createFetch = (onSuccess, onError = showAlert) => () => fetch(
+  DATA_RECEVE_ADDRESS,
   {
     method: 'GET',
     credentials: 'same-origin',
