@@ -69,8 +69,5 @@ const showAlert = (message, messagePositionValue = '0', color= 'red') => {
   }, ALERT_SHOW_TIME);
 };
 
-const showMessage = (message) => {
-  document.body.appendChild(message.content);
-};
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert, showMessage};
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert};
