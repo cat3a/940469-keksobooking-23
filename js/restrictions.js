@@ -99,3 +99,5 @@ const inputListenHandler = () => {
 };
 
 priceInput.addEventListener('input', inputListenHandler);
+
+export {ROOMS, capacitySelectItems, priceInput, titleInput};

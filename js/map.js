@@ -1,6 +1,7 @@
-import {formEnableHandler} from './form.js';
-import {similarObjects} from './map-data.js';
+import {formEnableHandler, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
+import {restrictSelect} from './utils.js';
+import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
@@ -14,7 +15,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: CENTER_TOKIO_LATITUDE,
     lng: CENTER_TOKIO_LONGITUDE,
-  }, 12);
+  }, 13);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -42,6 +43,8 @@ const markerMain = L.marker(
 
 markerMain.addTo(map);
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const addressInput = document.querySelector('#address');
 addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 
@@ -49,34 +52,16 @@ markerMain.on('moveend', (evt) => {
   addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
 });
 
-//TODO: Вернуть метку при отправке формы в начальное положение.
-const sendForm = document.querySelector('.ad-form');
-
-//TODO: Я потом этот обработчик видоизменю, исходя из ТЗ. А пока он просто возвращает метку на место.
-sendForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  markerMain.setLatLng({
-    lat: CENTER_TOKIO_LATITUDE,
-    lng: CENTER_TOKIO_LONGITUDE,
-  });
-
-  map.setView({
-    lat: CENTER_TOKIO_LATITUDE,
-    lng: CENTER_TOKIO_LONGITUDE,
-  }, 12);
-
-  addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
-});
-
-const createMarker = (similarObject, tickets, item) => {
+const createMarker = (similarObject) => {
+  const {location, offer, author} = similarObject;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const lat = similarObject.location.lat;
-  const lng = similarObject.location.lng;
+  const lat = Number(location.lat);
+  const lng = Number(location.lng);
   const marker = L.marker(
     {
       lat,
@@ -88,16 +73,33 @@ const createMarker = (similarObject, tickets, item) => {
   );
 
   marker
-    .addTo(map)
-    .bindPopup(tickets[item],
+    .addTo(markerGroup)
+    .bindPopup(getTickets(offer, author),
       {
         keepInView: true,
       },
     );
 };
 
-similarObjects.forEach((similarObject, item= 0) => {
-  const tickets = getTickets();
-  createMarker(similarObject, tickets, item);
-  item ++;
-});
+const restoreParameters = () => {
+  sendForm.reset();
+
+  titleInput.setCustomValidity('');
+  titleInput.style.backgroundColor = 'white';
+
+  restrictSelect(ROOMS['for 1 guests']['values'], capacitySelectItems);
+
+  markerMain.setLatLng({
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
+  });
+
+  map.setView({
+    lat: CENTER_TOKIO_LATITUDE,
+    lng: CENTER_TOKIO_LONGITUDE,
+  }, 13);
+
+  addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
+};
+
+export {createMarker, restoreParameters};

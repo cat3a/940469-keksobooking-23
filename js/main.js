@@ -1,8 +1,6 @@
-import './comparison.js';
+import './map.js';
 import './form.js';
-import './form-data.js';
 import {similarObjects} from './map-data.js';
-import './leaflet.js';
 import './restrictions.js';
 import './server-data.js';
 import './generation-data.js';
