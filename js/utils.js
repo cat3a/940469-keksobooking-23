@@ -69,5 +69,4 @@ const showAlert = (message, messagePositionValue = '0', color= 'red') => {
   }, ALERT_SHOW_TIME);
 };
 
-
 export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert};

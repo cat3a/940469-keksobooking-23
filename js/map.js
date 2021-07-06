@@ -1,14 +1,12 @@
-import {formEnableHandler, sendForm, removeMessage} from './form.js';
+import {formEnableHandler, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
-import {createFetch} from './server-data.js';
-import {restrictSelect, showAlert} from './utils.js';
+import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
-const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -104,65 +102,4 @@ const restoreParameters = () => {
   addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 };
 
-const errorMessage = document.querySelector('#error');
-const successMessage = document.querySelector('#success');
-
-const showMessage = (message) => {
-  let clickId = () => {};
-  let keydownId  = () => {};
-  document.body.appendChild(message.content);
-  document.addEventListener('click', clickId = () => {
-    removeMessage(successMessage, errorMessage);
-    document.removeEventListener('keydown', keydownId);
-  },{once:true});
-  document.addEventListener('keydown', keydownId = (evt) => {
-    if (evt.keyCode === 27) {
-      removeMessage(successMessage, errorMessage);
-      document.removeEventListener('click', clickId);
-    }
-  }, {once:true});
-};
-
-sendForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  const errorMessageShow = errorMessage.cloneNode(true);
-  const successMessageShow = successMessage.cloneNode(true);
-
-  fetch(
-    FORM_SEND_ADDRESS,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  ).then((response) => {
-    if (response.ok) {
-      showMessage(successMessageShow);
-      restoreParameters();
-    } else {
-      showMessage(errorMessageShow);
-    }
-  }).catch(() => {
-    showMessage(errorMessageShow);
-  });
-});
-
-const resetButton = document.querySelector('.ad-form__reset');
-
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  restoreParameters();
-});
-
-const fetchData = createFetch(
-  (data) => {
-    data.forEach((similarObject) => {
-      createMarker(similarObject);
-    });
-  },
-  (error) => {
-    showAlert(error);
-  });
-
-
-fetchData();
+export {createMarker, restoreParameters};
