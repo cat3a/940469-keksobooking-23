@@ -3,6 +3,7 @@ import {showAlert} from './utils.js';
 import {restoreParameters, createMarker} from './map.js';
 
 const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
+const SIMILAR_OBJECT_COUNT = 10;
 
 const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -39,19 +40,21 @@ const errorMessage = document.querySelector('#error');
 const successMessage = document.querySelector('#success');
 
 const showMessage = (message) => {
-  let clickId = () => {};
-  let keydownId  = () => {};
+  let clickId = () => {
+  };
+  let keydownId = () => {
+  };
   document.body.appendChild(message.content);
   document.addEventListener('click', clickId = () => {
-    removeMessage(successMessage, errorMessage);
+    removeMessage();
     document.removeEventListener('keydown', keydownId);
-  },{once:true});
+  }, {once: true});
   document.addEventListener('keydown', keydownId = (evt) => {
     if (evt.keyCode === 27) {
-      removeMessage(successMessage, errorMessage);
+      removeMessage();
       document.removeEventListener('click', clickId);
     }
-  }, {once:true});
+  }, {once: true});
 };
 
 sendForm.addEventListener('submit', (evt) => {
@@ -87,9 +90,10 @@ resetButton.addEventListener('click', (evt) => {
 
 const fetchData = createFetch(
   (data) => {
-    data.forEach((similarObject) => {
-      createMarker(similarObject);
-    });
+    data.slice(0, SIMILAR_OBJECT_COUNT)
+      .forEach((similarObject) => {
+        createMarker(similarObject);
+      });
   },
   (error) => {
     showAlert(error);
