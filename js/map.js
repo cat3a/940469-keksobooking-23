@@ -3,6 +3,7 @@ import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 
+
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const CENTER_TOKIO_LATITUDE = 35.675;
@@ -43,14 +44,18 @@ const markerMain = L.marker(
 
 markerMain.addTo(map);
 
-const markerGroup = L.layerGroup().addTo(map);
-
 const addressInput = document.querySelector('#address');
 addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 
 markerMain.on('moveend', (evt) => {
   addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
 });
+
+let markerGroup = L.layerGroup().addTo(map);
+
+const createMarkerGroup = () => {
+  markerGroup = L.layerGroup().addTo(map);
+};
 
 const createMarker = (similarObject) => {
   const {location, offer, author} = similarObject;
@@ -81,6 +86,10 @@ const createMarker = (similarObject) => {
     );
 };
 
+const removeLayer = () => {
+  markerGroup.remove();
+};
+
 const restoreParameters = () => {
   sendForm.reset();
 
@@ -102,4 +111,4 @@ const restoreParameters = () => {
   addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 };
 
-export {createMarker, restoreParameters};
+export {createMarker, restoreParameters, removeLayer, markerGroup, createMarkerGroup};
