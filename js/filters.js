@@ -12,7 +12,6 @@ const getFilter = (similarObject) => {
     if (filterTarget === 'any') {
       createMarker(similarObject);
     } else if (filterTarget === `${offer.type}`) {
-      console.log(similarObject);
       createMarker(similarObject);
     }
   });

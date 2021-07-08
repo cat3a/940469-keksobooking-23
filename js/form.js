@@ -1,8 +1,8 @@
 import {createFetch} from './server-data.js';
 import {showAlert} from './utils.js';
-import {restoreParameters, createMarker} from './map.js';
+import {restoreParameters} from './map.js';
 //import {compareObjects} from './filters.js';
-import {getFilter} from './filters.js';
+import {getFilter} from './test.js';
 //import {similarObjects} from './map-data.js';
 
 const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
