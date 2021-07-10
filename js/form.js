@@ -10,13 +10,17 @@ const filterFormChildren = filterForm.children;
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".
 */
-const formEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
+const mapEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
   ticketForm.classList.toggle(selector, isDisabled);
   ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
+};
+
+const formEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
   filterForm.classList.toggle(selector, isDisabled);
   Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
+mapEnableHandler('ad-form--disabled', true);
 formEnableHandler('ad-form--disabled', true);
 
 //TODO: Вернуть метку при отправке формы в начальное положение.
@@ -84,4 +88,4 @@ resetButton.addEventListener('click', (evt) => {
   restoreParameters();
 });
 
-export {formEnableHandler, sendForm, removeMessage};
+export {mapEnableHandler, sendForm, removeMessage, formEnableHandler};

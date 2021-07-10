@@ -1,4 +1,4 @@
-import {formEnableHandler, sendForm} from './form.js';
+import {mapEnableHandler, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
@@ -10,9 +10,6 @@ const CENTER_TOKIO_LONGITUDE = 139.75;
 
 
 const map = L.map('map-canvas')
-  .on('load', () => {
-    formEnableHandler();
-  })
   .setView({
     lat: CENTER_TOKIO_LATITUDE,
     lng: CENTER_TOKIO_LONGITUDE,
@@ -23,7 +20,10 @@ L.tileLayer(
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
-).addTo(map);
+).addTo(map)
+  .on('load', () => {
+    mapEnableHandler();
+  });
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
