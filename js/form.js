@@ -1,7 +1,5 @@
 import {restoreParameters} from './map.js';
 
-const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
-
 const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const ticketFormChildren = ticketForm.querySelectorAll('fieldset');
@@ -36,9 +34,6 @@ const removeMessage = () => {
   }
 };
 
-const errorMessage = document.querySelector('#error');
-const successMessage = document.querySelector('#success');
-
 const showMessage = (message) => {
   let clickId = () => {
   };
@@ -57,30 +52,6 @@ const showMessage = (message) => {
   }, {once: true});
 };
 
-sendForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  const errorMessageShow = errorMessage.cloneNode(true);
-  const successMessageShow = successMessage.cloneNode(true);
-
-  fetch(
-    FORM_SEND_ADDRESS,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  ).then((response) => {
-    if (response.ok) {
-      showMessage(successMessageShow);
-      restoreParameters();
-    } else {
-      showMessage(errorMessageShow);
-    }
-  }).catch(() => {
-    showMessage(errorMessageShow);
-  });
-});
-
 const resetButton = document.querySelector('.ad-form__reset');
 
 resetButton.addEventListener('click', (evt) => {
@@ -88,4 +59,4 @@ resetButton.addEventListener('click', (evt) => {
   restoreParameters();
 });
 
-export {mapEnableHandler, sendForm, removeMessage, formEnableHandler};
+export {mapEnableHandler, sendForm, removeMessage, formEnableHandler, showMessage};
