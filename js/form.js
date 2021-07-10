@@ -1,12 +1,6 @@
-import {createFetch} from './server-data.js';
-import {showAlert} from './utils.js';
 import {restoreParameters} from './map.js';
-//import {compareObjects} from './filters.js';
-import {getFilter} from './test.js';
-//import {similarObjects} from './map-data.js';
 
 const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
-const SIMILAR_OBJECT_COUNT = 10;
 
 const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -90,19 +84,5 @@ resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   restoreParameters();
 });
-
-const fetchData = createFetch(
-  (data) => {
-    data//.slice(0, SIMILAR_OBJECT_COUNT)
-      .slice()
-      .forEach((similarObject) => {
-        getFilter(similarObject);
-      });
-  },
-  (error) => {
-    showAlert(error);
-  });
-
-fetchData();
 
 export {formEnableHandler, sendForm, removeMessage};

@@ -5,9 +5,13 @@ const HOUSE_PRICE_RANGE = {
   MAX: 50000,
 };
 
+const SIMILAR_OBJECT_COUNT = 10;
+
 const filterForm = document.querySelector('.map__filters');
 const houseTypeFilter = filterForm.querySelector('#housing-type');
 const housePriceFilter = filterForm.querySelector('#housing-price');
+const houseRoomsFilter = filterForm.querySelector('#housing-rooms');
+const houseGuestsFilter = filterForm.querySelector('#housing-guests');
 
 const isSelectedHouseType = (similarObject) => {
   const {offer} = similarObject;
@@ -20,25 +24,53 @@ const isSelectedPrice = (similarObject) => {
   const {offer} = similarObject;
   if (housePriceFilter.value === 'any') {
     return true;
-  } else if (housePriceFilter.value === 'low' && offer.price <= HOUSE_PRICE_RANGE.MIN) {
+  } else if (housePriceFilter.value === 'low' && HOUSE_PRICE_RANGE.MIN >= offer.price) {
     return true;
   } else if (housePriceFilter.value === 'middle' && offer.price > HOUSE_PRICE_RANGE.MIN && offer.price < HOUSE_PRICE_RANGE.MAX) {
     return true;
-  } else if (housePriceFilter.value && offer.price >= HOUSE_PRICE_RANGE.MAX) {
+  } else if (housePriceFilter.value === 'high' && offer.price >= HOUSE_PRICE_RANGE.MAX) {
     return true;
   } else {
     return false;
   }
 };
 
-const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObject) && isSelectedPrice(similarObject);
+const isSelectedRooms = (similarObject) => {
+  const {offer} = similarObject;
+  if (houseRoomsFilter.value === 'any' || houseRoomsFilter.value === `${offer.rooms}`) {
+    return true;
+  }
+};
 
-const getFilter = async (similarObject) => {
-  filterForm.addEventListener('change', async () => {
-    await removeLayer(markerGroup);
-    await createMarkerGroup(markerGroup);
-    similarObject = similarObject.filter((similarObj) => filterSimilarObjects(similarObj));
-    createMarker(similarObject);
+const isSelectedGuests = (similarObject) => {
+  const {offer} = similarObject;
+  if (houseGuestsFilter.value === 'any' || houseGuestsFilter.value === `${offer.guests}`) {
+    return true;
+  }
+};
+
+const isSelectedFeatures = (similarObject) => {
+  const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
+  let houseFeature = true;
+  Array.from(houseFeaturesChecked).every((checkbox) => {
+    const {offer} = similarObject;
+    if (typeof offer.features !== 'undefined') {
+      houseFeature = offer.features.indexOf(checkbox.value) !== -1;
+      return houseFeature;
+    }
+  });
+  return houseFeature;
+};
+
+const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObject) && isSelectedPrice(similarObject) && isSelectedRooms(similarObject) && isSelectedGuests(similarObject) && isSelectedFeatures(similarObject);
+
+const getFilter = (similarObject) => {
+  similarObject.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj));
+  filterForm.addEventListener('change', () => {
+    removeLayer(markerGroup);
+    createMarkerGroup(markerGroup);
+    const similarObjectsFiltered = similarObject.filter((similarObj) => filterSimilarObjects(similarObj));
+    similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered));
   });
 };
 

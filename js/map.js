@@ -9,6 +9,7 @@ import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
 
+
 const map = L.map('map-canvas')
   .on('load', () => {
     formEnableHandler();
@@ -76,10 +77,10 @@ const createMarker = (similarObject) => {
       icon,
     },
   );
-
   marker
     .addTo(markerGroup)
-    .bindPopup(getTickets(offer, author),
+    .bindPopup(
+      getTickets(offer, author),
       {
         keepInView: true,
       },
