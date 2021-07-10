@@ -39,11 +39,11 @@ const removeMessage = () => {
 const showMessage = (message) => {
 
   const messageCloseHandler = (evt) => {
-    if (evt.keyCode ===  ESCAPE_CODE || evt.type === 'click') {
+    if (evt.keyCode === ESCAPE_CODE || evt.type === 'click') {
       removeMessage();
+      document.removeEventListener('click', messageCloseHandler);
+      document.removeEventListener('keydown', messageCloseHandler);
     }
-    document.removeEventListener('click', messageCloseHandler);
-    document.removeEventListener('keydown', messageCloseHandler);
   };
 
   document.body.appendChild(message.content);
@@ -52,7 +52,6 @@ const showMessage = (message) => {
     document.addEventListener('keydown', messageCloseHandler);
     document.addEventListener('click', messageCloseHandler);
   };
-
   closePopupListener();
 };
 
