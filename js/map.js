@@ -46,7 +46,6 @@ markerMain.addTo(map);
 
 const addressInput = document.querySelector('#address');
 
-
 const setAddress = () => {
   addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
 };

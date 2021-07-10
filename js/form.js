@@ -41,17 +41,24 @@ const showMessage = (message) => {
   };
   let messageKeydownHandler = () => {
   };
-  document.body.appendChild(message.content);
-  document.addEventListener('click', messageClickHandler = () => {
+
+  const removeEventListener = (type, handlerName) => {
     removeMessage();
-    document.removeEventListener('keydown', messageKeydownHandler);
+    document.removeEventListener(type, handlerName);
+  };
+
+  document.body.appendChild(message.content);
+
+  document.addEventListener('click', messageClickHandler = () => {
+    removeEventListener('keydown', messageKeydownHandler);
   }, {once: true});
+
   document.addEventListener('keydown', messageKeydownHandler = (evt) => {
     if (evt.keyCode === ESCAPE_CODE) {
-      removeMessage();
-      document.removeEventListener('click', messageClickHandler);
+      removeEventListener('click', messageClickHandler);
     }
   }, {once: true});
+
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
