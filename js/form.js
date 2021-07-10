@@ -1,5 +1,7 @@
 import {restoreParameters} from './map.js';
 
+const ESCAPE_CODE = 27;
+
 const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const ticketFormChildren = ticketForm.querySelectorAll('fieldset');
@@ -27,27 +29,27 @@ const sendForm = document.querySelector('.ad-form');
 const removeMessage = () => {
   const error = document.querySelector('.error');
   const success = document.querySelector('.success');
-  if (document.body.contains(error)) {
+  if (error !== null) {
     error.remove();
-  } else if (document.body.contains(success)) {
+  } else if (success !== null) {
     success.remove();
   }
 };
 
 const showMessage = (message) => {
-  let clickId = () => {
+  let messageClickHandler = () => {
   };
-  let keydownId = () => {
+  let messageKeydownHandler = () => {
   };
   document.body.appendChild(message.content);
-  document.addEventListener('click', clickId = () => {
+  document.addEventListener('click', messageClickHandler = () => {
     removeMessage();
-    document.removeEventListener('keydown', keydownId);
+    document.removeEventListener('keydown', messageKeydownHandler);
   }, {once: true});
-  document.addEventListener('keydown', keydownId = (evt) => {
-    if (evt.keyCode === 27) {
+  document.addEventListener('keydown', messageKeydownHandler = (evt) => {
+    if (evt.keyCode === ESCAPE_CODE) {
       removeMessage();
-      document.removeEventListener('click', clickId);
+      document.removeEventListener('click', messageClickHandler);
     }
   }, {once: true});
 };
