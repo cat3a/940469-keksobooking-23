@@ -5,7 +5,7 @@ import {showAlert} from './utils.js';
 
 const DATA_RECEVE_ADDRESS = 'https://23.javascript.pages.academy/keksobooking/data';
 
-const createFetch = (onError) => {
+const createFetch = (onError = showAlert) => {
   fetch(DATA_RECEVE_ADDRESS, {
     method: 'GET',
     credentials: 'same-origin',
@@ -15,5 +15,5 @@ const createFetch = (onError) => {
     .catch(onError);
 };
 
-createFetch(showAlert);
+createFetch();
 

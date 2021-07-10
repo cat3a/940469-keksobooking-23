@@ -1,6 +1,6 @@
 //TODO: Модуль с полезными функциями, которые используются во всем проекте.
 
-const ALERT_SHOW_TIME = 5000;
+const ALERT_SHOW_TIME = 7000;
 
 const getRandomInteger = (minNumber, maxNumber) => {
   if (minNumber >= maxNumber || minNumber < 0) {
@@ -48,7 +48,7 @@ const timeChangeHandler = (linkedItems) => (evt) => {
   linkedItems.value = evt.target.value;
 };
 
-const showAlert = (message, messagePositionValue = '0', color= 'red') => {
+const showAlert = (message, messagePositionValue = '0', color = 'red') => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '500';
   alertContainer.style.position = 'absolute';
@@ -60,7 +60,7 @@ const showAlert = (message, messagePositionValue = '0', color= 'red') => {
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = color;
 
-  alertContainer.textContent = message;
+  alertContainer.textContent = 'Кажется что-то пошло не так. Попробуйте перезагрузить страницу. Если это не помогло, подождите какое-то время и перезагрузите страницу еще раз.';
 
   document.body.appendChild(alertContainer);
 
@@ -69,4 +69,13 @@ const showAlert = (message, messagePositionValue = '0', color= 'red') => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert, debounce};

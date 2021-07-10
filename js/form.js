@@ -6,7 +6,6 @@ const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const ticketFormChildren = ticketForm.querySelectorAll('fieldset');
 const filterFormChildren = filterForm.children;
-
 /*TODO: Я пока все-таки оставлю на самих формах добавление/снятие класса, так как исходя из ТЗ сильно напрашивается. Меня смущает:
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".

@@ -3,7 +3,6 @@ import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 
-
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const CENTER_TOKIO_LATITUDE = 35.675;

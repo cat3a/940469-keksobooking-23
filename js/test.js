@@ -1,4 +1,5 @@
 import {createMarker, createMarkerGroup, markerGroup, removeLayer} from './map.js';
+import {debounce} from './utils.js';
 
 const HOUSE_PRICE_RANGE = {
   MIN: 10000,
@@ -64,14 +65,20 @@ const isSelectedFeatures = (similarObject) => {
 
 const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObject) && isSelectedPrice(similarObject) && isSelectedRooms(similarObject) && isSelectedGuests(similarObject) && isSelectedFeatures(similarObject);
 
+const createNewTickets = (similarObject) => debounce(() => {
+  removeLayer(markerGroup);
+  createMarkerGroup(markerGroup);
+  const similarObjectsFiltered = similarObject.filter((similarObj) => filterSimilarObjects(similarObj));
+  (similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered)));
+});
+
+const changeFormHandler = (similarObject) => {
+  filterForm.addEventListener('change', createNewTickets(similarObject));
+};
+
 const getFilter = (similarObject) => {
-  similarObject.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj));
-  filterForm.addEventListener('change', () => {
-    removeLayer(markerGroup);
-    createMarkerGroup(markerGroup);
-    const similarObjectsFiltered = similarObject.filter((similarObj) => filterSimilarObjects(similarObj));
-    similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered));
-  });
+  (similarObject.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj)));
+  changeFormHandler(similarObject);
 };
 
 export {getFilter};
