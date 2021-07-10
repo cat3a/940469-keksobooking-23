@@ -7,6 +7,7 @@ const HOUSE_PRICE_RANGE = {
 };
 
 const SIMILAR_OBJECT_COUNT = 10;
+const INDEX = -1;
 
 const filterForm = document.querySelector('.map__filters');
 const houseTypeFilter = filterForm.querySelector('#housing-type');
@@ -56,7 +57,7 @@ const isSelectedFeatures = (similarObject) => {
   Array.from(houseFeaturesChecked).every((checkbox) => {
     const {offer} = similarObject;
     if (typeof offer.features !== 'undefined') {
-      houseFeature = offer.features.indexOf(checkbox.value) !== -1;
+      houseFeature = offer.features.indexOf(checkbox.value) !== INDEX;
       return houseFeature;
     }
   });
