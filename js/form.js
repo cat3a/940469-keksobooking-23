@@ -37,28 +37,23 @@ const removeMessage = () => {
 };
 
 const showMessage = (message) => {
-  let messageClickHandler = () => {
-  };
-  let messageKeydownHandler = () => {
-  };
 
-  const removeEventListener = (type, handlerName) => {
-    removeMessage();
-    document.removeEventListener(type, handlerName);
+  const messageCloseHandler = (evt) => {
+    if (evt.keyCode ===  ESCAPE_CODE || evt.type === 'click') {
+      removeMessage();
+    }
+    document.removeEventListener('click', messageCloseHandler);
+    document.removeEventListener('keydown', messageCloseHandler);
   };
 
   document.body.appendChild(message.content);
 
-  document.addEventListener('click', messageClickHandler = () => {
-    removeEventListener('keydown', messageKeydownHandler);
-  }, {once: true});
+  const closePopupListener = () => {
+    document.addEventListener('keydown', messageCloseHandler);
+    document.addEventListener('click', messageCloseHandler);
+  };
 
-  document.addEventListener('keydown', messageKeydownHandler = (evt) => {
-    if (evt.keyCode === ESCAPE_CODE) {
-      removeEventListener('click', messageClickHandler);
-    }
-  }, {once: true});
-
+  closePopupListener();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
