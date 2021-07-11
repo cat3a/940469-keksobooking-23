@@ -2,6 +2,7 @@ import {mapEnableHandler, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
+import {avatarPreviewField, photoPreviewField, AVATAR_DEFAULT, PHOTO_DEFAULT} from './avatar.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
@@ -97,6 +98,8 @@ const removeLayer = () => {
 
 const restoreParameters = () => {
   sendForm.reset();
+  avatarPreviewField.src = AVATAR_DEFAULT;
+  photoPreviewField.src = PHOTO_DEFAULT;
 
   titleInput.setCustomValidity('');
   titleInput.style.backgroundColor = 'white';
