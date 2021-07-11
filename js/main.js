@@ -4,4 +4,5 @@ import './server-data.js';
 import './form.js';
 import './generation-data.js';
 import './filters.js';
+import './avatar.js';
 
