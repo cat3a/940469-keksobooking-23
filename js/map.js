@@ -1,4 +1,4 @@
-import {mapEnableHandler, sendForm} from './form.js';
+import {enableMap, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
@@ -9,6 +9,7 @@ import {avatarPreviewField, photoPreviewField, AVATAR_DEFAULT, PHOTO_DEFAULT} fr
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
 
+const mapFilters = document.querySelector('.map__filters');
 
 const map = L.map('map-canvas')
   .setView({
@@ -23,7 +24,7 @@ L.tileLayer(
   },
 ).addTo(map)
   .on('load', () => {
-    mapEnableHandler();
+    enableMap();
   });
 
 const mainPinIcon = L.icon({
@@ -63,8 +64,8 @@ const createMarkerGroup = () => {
   markerGroup = L.layerGroup().addTo(map);
 };
 
-const createMarker = (similarObject) => {
-  const {location, offer, author} = similarObject;
+const createMarker = (similarObjects) => {
+  const {location, offer, author} = similarObjects;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
@@ -117,6 +118,7 @@ const restoreParameters = () => {
   }, 13);
 
   setAddress();
+  mapFilters.reset();
 };
 
-export {createMarker, restoreParameters, removeLayer, markerGroup, createMarkerGroup};
+export {createMarker, restoreParameters, removeLayer, createMarkerGroup};

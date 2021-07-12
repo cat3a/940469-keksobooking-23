@@ -1,7 +1,7 @@
 //TODO: Модуль для обмена данными по сети.
 import {getFilter} from './filters.js';
 import {showAlert} from './utils.js';
-import {formEnableHandler, sendForm, showMessage} from './form.js';
+import {enableForm, sendForm, showMessage} from './form.js';
 import {restoreParameters} from './map.js';
 
 const DATA_RECEVE_ADDRESS = 'https://23.javascript.pages.academy/keksobooking/data';
@@ -14,7 +14,7 @@ const createFetch = (onError = showAlert) => {
   })
     .then((data) => data.json())
     .then(getFilter)
-    .then(formEnableHandler)
+    .then(enableForm)
     .catch(onError);
 };
 

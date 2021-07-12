@@ -10,18 +10,18 @@ const filterFormChildren = filterForm.children;
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".
 */
-const mapEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableMap = (selector = 'ad-form--disabled', isDisabled = false) => {
   ticketForm.classList.toggle(selector, isDisabled);
   ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-const formEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableForm = (selector = 'ad-form--disabled', isDisabled = false) => {
   filterForm.classList.toggle(selector, isDisabled);
   Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-mapEnableHandler('ad-form--disabled', true);
-formEnableHandler('ad-form--disabled', true);
+enableMap('ad-form--disabled', true);
+enableForm('ad-form--disabled', true);
 
 //TODO: Вернуть метку при отправке формы в начальное положение.
 const sendForm = document.querySelector('.ad-form');
@@ -38,21 +38,24 @@ const removeMessage = () => {
 
 const showMessage = (message) => {
 
-  const messageCloseHandler = (evt) => {
-    if (evt.keyCode === ESCAPE_CODE || evt.type === 'click') {
+  const messageClickHandler = () => removeMessage();
+
+  const messageKeyCodeHandler = (evt) => {
+    if (evt.keyCode === ESCAPE_CODE) {
       removeMessage();
-      document.removeEventListener('click', messageCloseHandler);
-      document.removeEventListener('keydown', messageCloseHandler);
     }
   };
 
+  document.removeEventListener('click', messageClickHandler);
+  document.removeEventListener('keydown', messageKeyCodeHandler);
+
   document.body.appendChild(message.content);
 
-  const closePopupListener = () => {
-    document.addEventListener('keydown', messageCloseHandler);
-    document.addEventListener('click', messageCloseHandler);
+  const closeMessage = () => {
+    document.addEventListener('keydown', messageKeyCodeHandler);
+    document.addEventListener('click', messageClickHandler);
   };
-  closePopupListener();
+  closeMessage();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -62,4 +65,4 @@ resetButton.addEventListener('click', (evt) => {
   restoreParameters();
 });
 
-export {mapEnableHandler, sendForm, removeMessage, formEnableHandler, showMessage};
+export {enableMap, sendForm, removeMessage, enableForm, showMessage, resetButton};

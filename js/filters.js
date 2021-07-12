@@ -1,13 +1,28 @@
-import {createMarker, createMarkerGroup, markerGroup, removeLayer} from './map.js';
+import {createMarker, createMarkerGroup, removeLayer} from './map.js';
 import {debounce} from './utils.js';
+import {resetButton, sendForm} from './form.js';
 
 const HOUSE_PRICE_RANGE = {
-  MIN: 10000,
-  MAX: 50000,
+  any: {
+    min: 0,
+    max: Infinity,
+  },
+  low: {
+    min: 0,
+    max: 10000,
+  },
+  middle: {
+    min: 10000,
+    max: 50000,
+  },
+  high: {
+    min: 50000,
+    max: Infinity,
+  },
 };
 
 const SIMILAR_OBJECT_COUNT = 10;
-const INDEX = -1;
+const SPECIAL_VALUE = 'any';
 
 const filterForm = document.querySelector('.map__filters');
 const houseTypeFilter = filterForm.querySelector('#housing-type');
@@ -15,71 +30,78 @@ const housePriceFilter = filterForm.querySelector('#housing-price');
 const houseRoomsFilter = filterForm.querySelector('#housing-rooms');
 const houseGuestsFilter = filterForm.querySelector('#housing-guests');
 
-const isSelectedHouseType = (similarObject) => {
-  const {offer} = similarObject;
-  if (houseTypeFilter.value === 'any' || houseTypeFilter.value === `${offer.type}`) {
+
+const isSelectedHouseType = (similarObjects) => {
+  const {offer} = similarObjects;
+  if (houseTypeFilter.value === SPECIAL_VALUE || houseTypeFilter.value === `${offer.type}`) {
     return true;
   }
 };
 
-const isSelectedPrice = (similarObject) => {
-  const {offer} = similarObject;
-  if (housePriceFilter.value === 'any') {
-    return true;
-  } else if (housePriceFilter.value === 'low' && HOUSE_PRICE_RANGE.MIN >= offer.price) {
-    return true;
-  } else if (housePriceFilter.value === 'middle' && offer.price > HOUSE_PRICE_RANGE.MIN && offer.price < HOUSE_PRICE_RANGE.MAX) {
-    return true;
-  } else if (housePriceFilter.value === 'high' && offer.price >= HOUSE_PRICE_RANGE.MAX) {
-    return true;
-  } else {
-    return false;
-  }
+const isSelectedPrice = (similarObjects) => {
+  const {offer} = similarObjects;
+  return (offer.price <= HOUSE_PRICE_RANGE[housePriceFilter.value].max && offer.price >= HOUSE_PRICE_RANGE[housePriceFilter.value].min);
 };
 
-const isSelectedRooms = (similarObject) => {
-  const {offer} = similarObject;
-  if (houseRoomsFilter.value === 'any' || houseRoomsFilter.value === `${offer.rooms}`) {
+const isSelectedRooms = (similarObjects) => {
+  const {offer} = similarObjects;
+  if (houseRoomsFilter.value === SPECIAL_VALUE || houseRoomsFilter.value === `${offer.rooms}`) {
     return true;
   }
 };
 
-const isSelectedGuests = (similarObject) => {
-  const {offer} = similarObject;
-  if (houseGuestsFilter.value === 'any' || houseGuestsFilter.value === `${offer.guests}`) {
+const isSelectedGuests = (similarObjects) => {
+  const {offer} = similarObjects;
+  if (houseGuestsFilter.value === SPECIAL_VALUE || houseGuestsFilter.value === `${offer.guests}`) {
     return true;
   }
 };
 
-const isSelectedFeatures = (similarObject) => {
+const isSelectedFeatures = (similarObjects) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
   let houseFeature = true;
   Array.from(houseFeaturesChecked).every((checkbox) => {
-    const {offer} = similarObject;
+    const {offer} = similarObjects;
     if (typeof offer.features !== 'undefined') {
-      houseFeature = offer.features.indexOf(checkbox.value) !== INDEX;
+      houseFeature = offer.features.includes(checkbox.value);
       return houseFeature;
     }
   });
   return houseFeature;
 };
 
-const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObject) && isSelectedPrice(similarObject) && isSelectedRooms(similarObject) && isSelectedGuests(similarObject) && isSelectedFeatures(similarObject);
+const filterSimilarObjects = (similarObjects) => isSelectedHouseType(similarObjects) && isSelectedPrice(similarObjects) && isSelectedRooms(similarObjects) && isSelectedGuests(similarObjects) && isSelectedFeatures(similarObjects);
 
-const createNewTickets = (similarObject) => debounce(() => {
-  removeLayer(markerGroup);
-  createMarkerGroup(markerGroup);
-  const similarObjectsFiltered = similarObject.filter((similarObj) => filterSimilarObjects(similarObj));
-  (similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered)));
+const createNewTickets = (similarObjects) => debounce(() => {
+  removeLayer();
+  createMarkerGroup();
+  const similarObjectsFiltered = similarObjects.filter((similarObject) => filterSimilarObjects(similarObject));
+  similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered));
 });
 
-const changeFormHandler = (similarObject) => {
-  filterForm.addEventListener('change', createNewTickets(similarObject));
+const changeFormHandler = (similarObjects) => createNewTickets(similarObjects);
+
+const sendFormHandler = (similarObjects) => createNewTickets(similarObjects);
+
+const resetButtonHandler = (similarObjects) => createNewTickets(similarObjects);
+
+const getChangeFormHandler = (similarObjects) => {
+  filterForm.addEventListener('change', changeFormHandler(similarObjects));
 };
 
-const getFilter = (similarObject) => {
-  (similarObject.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj)));
-  changeFormHandler(similarObject);
+const getSendFormHandler = (similarObjects) => {
+  sendForm.addEventListener('submit', sendFormHandler(similarObjects));
+};
+
+const getResetButtonHandler = (similarObjects) => {
+  resetButton.addEventListener('click', resetButtonHandler(similarObjects));
+};
+
+const getFilter = (similarObjects) => {
+  similarObjects.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj));
+  getChangeFormHandler(similarObjects);
+  getResetButtonHandler(similarObjects);
+  getSendFormHandler(similarObjects);
 };
 
 export {getFilter};
