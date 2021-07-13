@@ -44,7 +44,7 @@ const showMessage = (message, removeMessage) => {
   document.addEventListener('click', documentClickHandler);
 
   removeMessage = () => {
-    document.body.removeChild(document.body.children[10]);
+    document.body.removeChild(document.body.children[document.body.children.length - 1]);
     document.removeEventListener('click', documentClickHandler);
     document.removeEventListener('keydown', documentKeydownHandler);
   };
