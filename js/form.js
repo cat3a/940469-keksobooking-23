@@ -10,7 +10,7 @@ const filterFormChildren = filterForm.children;
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".
 */
-const enableMap = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableMapFilter = (selector = 'ad-form--disabled', isDisabled = false) => {
   ticketForm.classList.toggle(selector, isDisabled);
   ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
 };
@@ -20,42 +20,34 @@ const enableForm = (selector = 'ad-form--disabled', isDisabled = false) => {
   Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-enableMap('ad-form--disabled', true);
+enableMapFilter('ad-form--disabled', true);
 enableForm('ad-form--disabled', true);
 
 //TODO: Вернуть метку при отправке формы в начальное положение.
 const sendForm = document.querySelector('.ad-form');
 
-const removeMessage = () => {
-  const error = document.querySelector('.error');
-  const success = document.querySelector('.success');
-  if (error !== null) {
-    error.remove();
-  } else if (success !== null) {
-    success.remove();
-  }
-};
+const showMessage = (message, removeMessage) => {
 
-const showMessage = (message) => {
+  document.body.appendChild(message.content);
 
-  const messageClickHandler = () => removeMessage();
+  const documentClickHandler = () => {
+    removeMessage();
+  };
 
-  const messageKeyCodeHandler = (evt) => {
+  const documentKeydownHandler = (evt) => {
     if (evt.keyCode === ESCAPE_CODE) {
       removeMessage();
     }
   };
 
-  document.removeEventListener('click', messageClickHandler);
-  document.removeEventListener('keydown', messageKeyCodeHandler);
+  document.addEventListener('keydown', documentKeydownHandler);
+  document.addEventListener('click', documentClickHandler);
 
-  document.body.appendChild(message.content);
-
-  const closeMessage = () => {
-    document.addEventListener('keydown', messageKeyCodeHandler);
-    document.addEventListener('click', messageClickHandler);
+  removeMessage = () => {
+    document.body.removeChild(document.body.children[10]);
+    document.removeEventListener('click', documentClickHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
   };
-  closeMessage();
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -65,4 +57,4 @@ resetButton.addEventListener('click', (evt) => {
   restoreParameters();
 });
 
-export {enableMap, sendForm, removeMessage, enableForm, showMessage, resetButton};
+export {enableMapFilter, sendForm, enableForm, showMessage, resetButton};

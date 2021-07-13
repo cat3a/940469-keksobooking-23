@@ -1,4 +1,4 @@
-import {enableMap, sendForm} from './form.js';
+import {enableMapFilter, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
@@ -24,7 +24,7 @@ L.tileLayer(
   },
 ).addTo(map)
   .on('load', () => {
-    enableMap();
+    enableMapFilter();
   });
 
 const mainPinIcon = L.icon({

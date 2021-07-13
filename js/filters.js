@@ -33,9 +33,7 @@ const houseGuestsFilter = filterForm.querySelector('#housing-guests');
 
 const isSelectedHouseType = (similarObjects) => {
   const {offer} = similarObjects;
-  if (houseTypeFilter.value === SPECIAL_VALUE || houseTypeFilter.value === `${offer.type}`) {
-    return true;
-  }
+  return houseTypeFilter.value === SPECIAL_VALUE || houseTypeFilter.value === `${offer.type}`;
 };
 
 const isSelectedPrice = (similarObjects) => {
@@ -61,7 +59,7 @@ const isSelectedFeatures = (similarObjects) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
   return Array.from(houseFeaturesChecked).every((checkbox) => {
     const {offer} = similarObjects;
-    if (typeof offer.features !== 'undefined') {
+    if (Array.isArray( offer.features )) {
       return offer.features.includes(checkbox.value);
     }
   });

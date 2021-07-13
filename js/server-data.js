@@ -20,12 +20,13 @@ const createFetch = (onError = showAlert) => {
 
 createFetch();
 
+const error = document.querySelector('#error');
+const success = document.querySelector('#success');
+
 sendForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const errorMessage = document.querySelector('#error');
-  const successMessage = document.querySelector('#success');
-  const errorMessageShow = errorMessage.cloneNode(true);
-  const successMessageShow = successMessage.cloneNode(true);
+  const errorMessageShow = error.cloneNode(true);
+  const successMessageShow = success.cloneNode(true);
   const formData = new FormData(evt.target);
   fetch(
     FORM_SEND_ADDRESS,
