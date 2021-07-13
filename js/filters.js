@@ -59,15 +59,12 @@ const isSelectedGuests = (similarObjects) => {
 
 const isSelectedFeatures = (similarObjects) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
-  let houseFeature = true;
-  Array.from(houseFeaturesChecked).every((checkbox) => {
+  return Array.from(houseFeaturesChecked).every((checkbox) => {
     const {offer} = similarObjects;
     if (typeof offer.features !== 'undefined') {
-      houseFeature = offer.features.includes(checkbox.value);
-      return houseFeature;
+      return offer.features.includes(checkbox.value);
     }
   });
-  return houseFeature;
 };
 
 const filterSimilarObjects = (similarObjects) => isSelectedHouseType(similarObjects) && isSelectedPrice(similarObjects) && isSelectedRooms(similarObjects) && isSelectedGuests(similarObjects) && isSelectedFeatures(similarObjects);

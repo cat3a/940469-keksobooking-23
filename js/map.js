@@ -48,14 +48,14 @@ markerMain.addTo(map);
 
 const addressInput = document.querySelector('#address');
 
-const setAddress = () => {
-  addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
+const setAddress = (evt, LATITUDE = CENTER_TOKIO_LATITUDE, LONGITUDE = CENTER_TOKIO_LONGITUDE) => {
+  addressInput.value = `${Number(LATITUDE).toFixed(5)}, ${Number(LONGITUDE).toFixed(5)}`;
 };
 
 setAddress();
 
 markerMain.on('moveend', (evt) => {
-  addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
+  setAddress(evt, evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
 let markerGroup = L.layerGroup().addTo(map);
