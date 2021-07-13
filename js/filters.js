@@ -55,14 +55,19 @@ const isSelectedGuests = (similarObjects) => {
   }
 };
 
+// TODO: Пришла вот к такому решению, предыдущее упрощенное без переменной почему-то работает неверно. Не замечает часть меток где все есть. (Тестировала на Бунгало + Wi-Fi).
+
 const isSelectedFeatures = (similarObjects) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
-  return Array.from(houseFeaturesChecked).every((checkbox) => {
+  let houseFeature = true;
+  Array.from(houseFeaturesChecked).every((checkbox) => {
     const {offer} = similarObjects;
-    if (Array.isArray( offer.features )) {
-      return offer.features.includes(checkbox.value);
+    if (Array.isArray(offer.features)) {
+      houseFeature = offer.features.includes(checkbox.value);
+      return houseFeature;
     }
   });
+  return houseFeature;
 };
 
 const filterSimilarObjects = (similarObjects) => isSelectedHouseType(similarObjects) && isSelectedPrice(similarObjects) && isSelectedRooms(similarObjects) && isSelectedGuests(similarObjects) && isSelectedFeatures(similarObjects);
