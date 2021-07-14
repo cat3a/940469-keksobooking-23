@@ -10,12 +10,12 @@ const filterFormChildren = filterForm.children;
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".
 */
-const enableMapFilter = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableForm = (selector = 'ad-form--disabled', isDisabled = false) => {
   ticketForm.classList.toggle(selector, isDisabled);
   ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-const enableForm = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableMapFilter = (selector = 'ad-form--disabled', isDisabled = false) => {
   filterForm.classList.toggle(selector, isDisabled);
   Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
@@ -27,8 +27,17 @@ enableForm('ad-form--disabled', true);
 const sendForm = document.querySelector('.ad-form');
 
 const showMessage = (message, removeMessage) => {
+  const wrapperError = message.content.querySelector('.error');
+  const wrapperSuccess = message.content.querySelector('.success');
+  let wrapper = '';
 
-  document.body.appendChild(message.content);
+  if (wrapperError === null) {
+    wrapper = wrapperSuccess;
+    document.body.appendChild(wrapper);
+  } else if (wrapperSuccess === null) {
+    wrapper = wrapperError;
+    document.body.appendChild(wrapper);
+  }
 
   const documentClickHandler = () => {
     removeMessage();
@@ -44,7 +53,7 @@ const showMessage = (message, removeMessage) => {
   document.addEventListener('click', documentClickHandler);
 
   removeMessage = () => {
-    document.body.removeChild(document.body.children[document.body.children.length - 1]);
+    wrapper.remove();
     document.removeEventListener('click', documentClickHandler);
     document.removeEventListener('keydown', documentKeydownHandler);
   };

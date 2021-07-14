@@ -38,41 +38,35 @@ const isSelectedHouseType = (similarObjects) => {
 
 const isSelectedPrice = (similarObjects) => {
   const {offer} = similarObjects;
-  return (offer.price <= HOUSE_PRICE_RANGE[housePriceFilter.value].max && offer.price >= HOUSE_PRICE_RANGE[housePriceFilter.value].min);
+  return offer.price <= HOUSE_PRICE_RANGE[housePriceFilter.value].max && offer.price >= HOUSE_PRICE_RANGE[housePriceFilter.value].min;
 };
 
 const isSelectedRooms = (similarObjects) => {
   const {offer} = similarObjects;
-  if (houseRoomsFilter.value === SPECIAL_VALUE || houseRoomsFilter.value === `${offer.rooms}`) {
-    return true;
-  }
+  return houseRoomsFilter.value === SPECIAL_VALUE || houseRoomsFilter.value === `${offer.rooms}`;
 };
 
 const isSelectedGuests = (similarObjects) => {
   const {offer} = similarObjects;
-  if (houseGuestsFilter.value === SPECIAL_VALUE || houseGuestsFilter.value === `${offer.guests}`) {
-    return true;
-  }
+  return houseGuestsFilter.value === SPECIAL_VALUE || houseGuestsFilter.value === `${offer.guests}`;
 };
 
-// TODO: Пришла вот к такому решению, предыдущее упрощенное без переменной почему-то работает неверно. Не замечает часть меток где все есть. (Тестировала на Бунгало + Wi-Fi).
-
-const isSelectedFeatures = (similarObjects) => {
+const isSelectedFeatures = (similarObject) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
   return Array.from(houseFeaturesChecked).every((checkbox) => {
-    const {offer} = similarObjects;
+    const {offer} = similarObject;
     if (Array.isArray(offer.features)) {
-      return  offer.features.includes(checkbox.value);
+      return offer.features.includes(checkbox.value);
     }
   });
 };
 
-const filterSimilarObjects = (similarObjects) => isSelectedHouseType(similarObjects) && isSelectedPrice(similarObjects) && isSelectedRooms(similarObjects) && isSelectedGuests(similarObjects) && isSelectedFeatures(similarObjects);
+const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObject) && isSelectedPrice(similarObject) && isSelectedRooms(similarObject) && isSelectedGuests(similarObject) && isSelectedFeatures(similarObject);
 
-const createNewTickets = (similarObjects) => debounce(() => {
+const createNewTickets = (similarObject) => debounce(() => {
   removeLayer();
   createMarkerGroup();
-  const similarObjectsFiltered = similarObjects.filter((similarObject) => filterSimilarObjects(similarObject));
+  const similarObjectsFiltered = similarObject.filter((data) => filterSimilarObjects(data));
   similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered));
 });
 
