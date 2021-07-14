@@ -1,3 +1,4 @@
+//TODO: Module12-task2
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const AVATAR_DEFAULT = 'img/muffin-grey.svg';
