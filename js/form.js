@@ -27,15 +27,15 @@ enableForm('ad-form--disabled', true);
 const sendForm = document.querySelector('.ad-form');
 
 const showMessage = (message, removeMessage) => {
-  const wrapperError = message.content.querySelector('.error');
-  const wrapperSuccess = message.content.querySelector('.success');
+  const errorWrapper = message.content.querySelector('.error');
+  const successWrapper = message.content.querySelector('.success');
   let wrapper = '';
 
-  if (wrapperError === null) {
-    wrapper = wrapperSuccess;
+  if (errorWrapper === null) {
+    wrapper = successWrapper;
     document.body.appendChild(wrapper);
-  } else if (wrapperSuccess === null) {
-    wrapper = wrapperError;
+  } else if (successWrapper === null) {
+    wrapper = errorWrapper;
     document.body.appendChild(wrapper);
   }
 
