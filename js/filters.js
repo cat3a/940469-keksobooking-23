@@ -59,15 +59,12 @@ const isSelectedGuests = (similarObjects) => {
 
 const isSelectedFeatures = (similarObjects) => {
   const houseFeaturesChecked = filterForm.querySelectorAll('input:checked');
-  let houseFeature = true;
-  Array.from(houseFeaturesChecked).every((checkbox) => {
+  return Array.from(houseFeaturesChecked).every((checkbox) => {
     const {offer} = similarObjects;
     if (Array.isArray(offer.features)) {
-      houseFeature = offer.features.includes(checkbox.value);
-      return houseFeature;
+      return  offer.features.includes(checkbox.value);
     }
   });
-  return houseFeature;
 };
 
 const filterSimilarObjects = (similarObjects) => isSelectedHouseType(similarObjects) && isSelectedPrice(similarObjects) && isSelectedRooms(similarObjects) && isSelectedGuests(similarObjects) && isSelectedFeatures(similarObjects);
@@ -99,6 +96,7 @@ const getResetButtonHandler = (similarObjects) => {
 
 const getFilter = (similarObjects) => {
   similarObjects.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj));
+  console.log(similarObjects);
   getChangeFormHandler(similarObjects);
   getResetButtonHandler(similarObjects);
   getSendFormHandler(similarObjects);
