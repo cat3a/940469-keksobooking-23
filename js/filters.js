@@ -96,7 +96,6 @@ const getResetButtonHandler = (similarObjects) => {
 
 const getFilter = (similarObjects) => {
   similarObjects.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObj) => createMarker(similarObj));
-  console.log(similarObjects);
   getChangeFormHandler(similarObjects);
   getResetButtonHandler(similarObjects);
   getSendFormHandler(similarObjects);
