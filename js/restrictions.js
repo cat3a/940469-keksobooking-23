@@ -53,7 +53,7 @@ titleInput.addEventListener('input', () => {
 
 const priceInput = document.querySelector('#price');
 
-const capacitySelectItems = document.querySelector('#capacity').children;
+const capacitySelectItems = document.querySelector('#capacity').querySelectorAll('option');
 
 const roomSelect = document.querySelector('#room_number');
 

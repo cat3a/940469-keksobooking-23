@@ -1,82 +1,63 @@
-import {createFetch} from './server-data.js';
-import {showAlert} from './utils.js';
-import {restoreParameters, createMarker} from './map.js';
+import {restoreParameters} from './map.js';
 
-const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
+const ESCAPE_CODE = 27;
 
 const ticketForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const ticketFormChildren = ticketForm.querySelectorAll('fieldset');
 const filterFormChildren = filterForm.children;
-
 /*TODO: Я пока все-таки оставлю на самих формах добавление/снятие класса, так как исходя из ТЗ сильно напрашивается. Меня смущает:
 Цитата: "Форма с фильтрами .map__filters заблокирована так же, как и форма .ad-form — на форму добавлен специальный класс,
   а на её интерактивные элементы атрибуты disabled".
 */
-const formEnableHandler = (selector = 'ad-form--disabled', isDisabled = false) => {
+const enableForm = (selector = 'ad-form--disabled', isDisabled = false) => {
   ticketForm.classList.toggle(selector, isDisabled);
   ticketFormChildren.forEach((fieldset) => fieldset.disabled = isDisabled);
+};
+
+const enableMapFilter = (selector = 'ad-form--disabled', isDisabled = false) => {
   filterForm.classList.toggle(selector, isDisabled);
   Array.from(filterFormChildren).forEach((fieldset) => fieldset.disabled = isDisabled);
 };
 
-formEnableHandler('ad-form--disabled', true);
+enableMapFilter('ad-form--disabled', true);
+enableForm('ad-form--disabled', true);
 
 //TODO: Вернуть метку при отправке формы в начальное положение.
 const sendForm = document.querySelector('.ad-form');
 
-const removeMessage = () => {
-  const error = document.querySelector('.error');
-  const success = document.querySelector('.success');
-  if (document.body.contains(error)) {
-    error.remove();
-  } else if (document.body.contains(success)) {
-    success.remove();
+const showMessage = (message, removeMessage) => {
+  const errorWrapper = message.content.querySelector('.error');
+  const successWrapper = message.content.querySelector('.success');
+  let wrapper = '';
+
+  if (errorWrapper === null) {
+    wrapper = successWrapper;
+    document.body.appendChild(wrapper);
+  } else if (successWrapper === null) {
+    wrapper = errorWrapper;
+    document.body.appendChild(wrapper);
   }
-};
 
-const errorMessage = document.querySelector('#error');
-const successMessage = document.querySelector('#success');
+  const documentClickHandler = () => {
+    removeMessage();
+  };
 
-const showMessage = (message) => {
-  let clickId = () => {};
-  let keydownId  = () => {};
-  document.body.appendChild(message.content);
-  document.addEventListener('click', clickId = () => {
-    removeMessage(successMessage, errorMessage);
-    document.removeEventListener('keydown', keydownId);
-  },{once:true});
-  document.addEventListener('keydown', keydownId = (evt) => {
-    if (evt.keyCode === 27) {
-      removeMessage(successMessage, errorMessage);
-      document.removeEventListener('click', clickId);
+  const documentKeydownHandler = (evt) => {
+    if (evt.keyCode === ESCAPE_CODE) {
+      removeMessage();
     }
-  }, {once:true});
+  };
+
+  document.addEventListener('keydown', documentKeydownHandler);
+  document.addEventListener('click', documentClickHandler);
+
+  removeMessage = () => {
+    wrapper.remove();
+    document.removeEventListener('click', documentClickHandler);
+    document.removeEventListener('keydown', documentKeydownHandler);
+  };
 };
-
-sendForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  const errorMessageShow = errorMessage.cloneNode(true);
-  const successMessageShow = successMessage.cloneNode(true);
-
-  fetch(
-    FORM_SEND_ADDRESS,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  ).then((response) => {
-    if (response.ok) {
-      showMessage(successMessageShow);
-      restoreParameters();
-    } else {
-      showMessage(errorMessageShow);
-    }
-  }).catch(() => {
-    showMessage(errorMessageShow);
-  });
-});
 
 const resetButton = document.querySelector('.ad-form__reset');
 
@@ -85,16 +66,4 @@ resetButton.addEventListener('click', (evt) => {
   restoreParameters();
 });
 
-const fetchData = createFetch(
-  (data) => {
-    data.forEach((similarObject) => {
-      createMarker(similarObject);
-    });
-  },
-  (error) => {
-    showAlert(error);
-  });
-
-fetchData();
-
-export {formEnableHandler, sendForm, removeMessage};
+export {enableMapFilter, sendForm, enableForm, showMessage, resetButton};

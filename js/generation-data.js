@@ -36,6 +36,10 @@ const getTickets = (offer, author) => {
     }
     getVerification('.popup__features', ticket, offer.features.length === 0);
   }
+  if(!offer.features) {
+    const ticketFeatureSelector = ticket.querySelector('.popup__features');
+    ticketFeatureSelector.innerHTML = '';
+  }
 
   if (offer.description) {
     ticket.querySelector('.popup__description').textContent = offer.description;

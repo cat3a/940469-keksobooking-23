@@ -1,17 +1,17 @@
-import {formEnableHandler, sendForm} from './form.js';
+import {enableForm, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
 import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
+import {avatarPreviewField, photoPreviewField, AVATAR_DEFAULT, PHOTO_DEFAULT} from './avatar.js';
 
 //TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
 
+const mapFilters = document.querySelector('.map__filters');
+
 const map = L.map('map-canvas')
-  .on('load', () => {
-    formEnableHandler();
-  })
   .setView({
     lat: CENTER_TOKIO_LATITUDE,
     lng: CENTER_TOKIO_LONGITUDE,
@@ -22,7 +22,10 @@ L.tileLayer(
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
-).addTo(map);
+).addTo(map)
+  .on('load', () => {
+    enableForm();
+  });
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -43,17 +46,26 @@ const markerMain = L.marker(
 
 markerMain.addTo(map);
 
-const markerGroup = L.layerGroup().addTo(map);
-
 const addressInput = document.querySelector('#address');
-addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
+
+const setAddress = (evt, LATITUDE = CENTER_TOKIO_LATITUDE, LONGITUDE = CENTER_TOKIO_LONGITUDE) => {
+  addressInput.value = `${Number(LATITUDE).toFixed(5)}, ${Number(LONGITUDE).toFixed(5)}`;
+};
+
+setAddress();
 
 markerMain.on('moveend', (evt) => {
-  addressInput.value = (`${Number(evt.target.getLatLng().lat).toFixed(5)}, ${Number(evt.target.getLatLng().lng).toFixed(5)}`);
+  setAddress(evt, evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
-const createMarker = (similarObject) => {
-  const {location, offer, author} = similarObject;
+let markerGroup = L.layerGroup().addTo(map);
+
+const createMarkerGroup = () => {
+  markerGroup = L.layerGroup().addTo(map);
+};
+
+const createMarker = (similarObjects) => {
+  const {location, offer, author} = similarObjects;
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
@@ -71,18 +83,24 @@ const createMarker = (similarObject) => {
       icon,
     },
   );
-
   marker
     .addTo(markerGroup)
-    .bindPopup(getTickets(offer, author),
+    .bindPopup(
+      getTickets(offer, author),
       {
         keepInView: true,
       },
     );
 };
 
+const removeLayer = () => {
+  markerGroup.remove();
+};
+
 const restoreParameters = () => {
   sendForm.reset();
+  avatarPreviewField.src = AVATAR_DEFAULT;
+  photoPreviewField.src = PHOTO_DEFAULT;
 
   titleInput.setCustomValidity('');
   titleInput.style.backgroundColor = 'white';
@@ -99,7 +117,8 @@ const restoreParameters = () => {
     lng: CENTER_TOKIO_LONGITUDE,
   }, 13);
 
-  addressInput.value = `${Number(CENTER_TOKIO_LATITUDE).toFixed(5)}, ${Number(CENTER_TOKIO_LONGITUDE).toFixed(5)}`;
+  setAddress();
+  mapFilters.reset();
 };
 
-export {createMarker, restoreParameters};
+export {createMarker, restoreParameters, removeLayer, createMarkerGroup};
