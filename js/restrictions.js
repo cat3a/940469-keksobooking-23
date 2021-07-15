@@ -1,7 +1,6 @@
 import {restrictSelect, timeChangeHandler} from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_VALUE = 1000000;
 
 const ROOMS = {
@@ -39,11 +38,11 @@ titleInput.addEventListener('input', () => {
   if (valueTitleLength < MIN_TITLE_LENGTH) {
     titleInput.setCustomValidity(`Нужно ещё ${MIN_TITLE_LENGTH - valueTitleLength} символов. Заголовок объявления не должен быть короче, чем 30 символов.`);
     titleInput.style.backgroundColor = '#ffdee6';
-  } else if (valueTitleLength >= MAX_TITLE_LENGTH) {
-    titleInput.setCustomValidity('Заголовок объявления не должен быть длиннее, чем 100 символов.');
+    titleInput.style.border = '2px solid red';
   } else {
     titleInput.setCustomValidity('');
     titleInput.style.backgroundColor = 'white';
+    titleInput.style.border = '2px solid transparent';
   }
 
   titleInput.reportValidity();
@@ -86,16 +85,19 @@ const inputListenHandler = () => {
   if (priceInput.value < Number(price)) {
     priceInput.setCustomValidity(`Цена может быть только числом больше ${price}.`);
     priceInput.style.backgroundColor = '#ffdee6';
+    priceInput.style.border = '2px solid red';
   } else if (priceInput.value >= MAX_PRICE_VALUE) {
     priceInput.setCustomValidity('Цена  не может быть больше 1000000.');
     priceInput.style.backgroundColor = '#ffdee6';
+    priceInput.style.border = '2px solid red';
   } else {
     priceInput.setCustomValidity('');
     priceInput.style.backgroundColor = 'white';
+    priceInput.style.border = '2px solid transparent';
   }
   priceInput.reportValidity();
 };
 
 priceInput.addEventListener('input', inputListenHandler);
 
-export {ROOMS, capacitySelectItems, priceInput, titleInput};
+export {ROOMS, capacitySelectItems, priceInput, titleInput, HOUSE_PRICES};

@@ -18,6 +18,12 @@ const timeChangeHandler = (linkedItems) => (evt) => {
   linkedItems.value = evt.target.value;
 };
 
+const restoreInputParameters = (inputName) => {
+  inputName.setCustomValidity('');
+  inputName.style.backgroundColor = 'white';
+  inputName.style.border = '2px solid transparent';
+};
+
 const showAlert = (message, messagePositionValue = '0', color = 'red') => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '500';
@@ -48,4 +54,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getVerification, restrictSelect, timeChangeHandler, showAlert, debounce};
+export {getVerification, restrictSelect, timeChangeHandler, showAlert, debounce, restoreInputParameters};
