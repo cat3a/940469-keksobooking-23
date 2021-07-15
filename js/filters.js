@@ -66,7 +66,7 @@ const filterSimilarObjects = (similarObject) => isSelectedHouseType(similarObjec
 const createNewTickets = (similarObject) => debounce(() => {
   removeLayer();
   createMarkerGroup();
-  const similarObjectsFiltered = similarObject.filter((data) => filterSimilarObjects(data));
+  const similarObjectsFiltered = similarObject.filter((object) => filterSimilarObjects(object));
   similarObjectsFiltered.slice(0, SIMILAR_OBJECT_COUNT).forEach((similarObjectFiltered) => createMarker(similarObjectFiltered));
 });
 
