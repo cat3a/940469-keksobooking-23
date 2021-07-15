@@ -1,4 +1,3 @@
-//TODO: Модуль для обмена данными по сети.
 import {getFilter} from './filters.js';
 import {showAlert} from './utils.js';
 import {enableMapFilter, sendForm, showMessage} from './form.js';

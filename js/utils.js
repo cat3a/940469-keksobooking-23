@@ -1,40 +1,10 @@
-//TODO: Модуль с полезными функциями, которые используются во всем проекте.
-
 const ALERT_SHOW_TIME = 7000;
-
-const getRandomInteger = (minNumber, maxNumber) => {
-  if (minNumber >= maxNumber || minNumber < 0) {
-    throw new Error('Первое число должно быть меньше второго. Оба числа должны быть неотрицательными.');
-  }
-  minNumber = Math.ceil(minNumber);
-  maxNumber = Math.floor(maxNumber);
-  const number = minNumber - 0.5 + Math.random() * (maxNumber - minNumber + 1);
-  return Math.round(number);
-};
-
-const getRandomCoordinate = (minNumber, maxNumber, rounding) => {
-  if (minNumber < 0 || minNumber >= maxNumber) {
-    throw new Error('Все числа должны быть неотрицательными. Первое число должно быть меньше второго.');
-  }
-  const number = (Math.random() * (maxNumber - minNumber) + minNumber);
-  return Number(number.toFixed(rounding));
-};
-
-const getShuffleElement = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
 
 const getVerification = (selector, container, condition) => {
   if (condition) {
     container.querySelector(selector).classList.add('hidden');
   }
 };
-
-//TODO: С этой функцией я пока даже не знаю что делать, хоть по индексам обращайся к элементам. Но я про нее помню.
 
 const restrictSelect = (conditions, collectionItems) => {
   Array.from(collectionItems).forEach((collectionItem) => {
@@ -78,4 +48,4 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getRandomInteger, getRandomCoordinate, getShuffleElement, getVerification, restrictSelect, timeChangeHandler, showAlert, debounce};
+export {getVerification, restrictSelect, timeChangeHandler, showAlert, debounce};

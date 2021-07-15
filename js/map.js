@@ -4,8 +4,6 @@ import {restrictSelect} from './utils.js';
 import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
 import {avatarPreviewField, photoPreviewField, AVATAR_DEFAULT, PHOTO_DEFAULT} from './avatar.js';
 
-//TODO: Много кода. Подозреваю, что это все можно сократить.
-
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
 

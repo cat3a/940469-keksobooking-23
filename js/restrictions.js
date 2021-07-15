@@ -1,5 +1,3 @@
-//TODO: Здесь будет реализована работа с ограничениями для полей ввода.
-
 import {restrictSelect, timeChangeHandler} from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;

@@ -1,5 +1,3 @@
-//TODO: Это модуль генерации разметки похожих элементов.
-
 import {getVerification} from './utils.js';
 
 const HOME_TYPES = {
