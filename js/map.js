@@ -1,10 +1,8 @@
 import {enableForm, sendForm} from './form.js';
 import {getTickets} from './generation-data.js';
-import {restrictSelect} from './utils.js';
-import {ROOMS, capacitySelectItems, titleInput} from './restrictions.js';
+import {restrictSelect, restoreInputParameters} from './utils.js';
+import {ROOMS, capacitySelectItems, titleInput, priceInput, HOUSE_PRICES} from './restrictions.js';
 import {avatarPreviewField, photoPreviewField, AVATAR_DEFAULT, PHOTO_DEFAULT} from './avatar.js';
-
-//TODO: Много кода. Подозреваю, что это все можно сократить.
 
 const CENTER_TOKIO_LATITUDE = 35.675;
 const CENTER_TOKIO_LONGITUDE = 139.75;
@@ -102,8 +100,10 @@ const restoreParameters = () => {
   avatarPreviewField.src = AVATAR_DEFAULT;
   photoPreviewField.src = PHOTO_DEFAULT;
 
-  titleInput.setCustomValidity('');
-  titleInput.style.backgroundColor = 'white';
+  restoreInputParameters(titleInput);
+  restoreInputParameters(priceInput);
+  priceInput.min = HOUSE_PRICES['flat'];
+  priceInput.placeholder = HOUSE_PRICES['flat'];
 
   restrictSelect(ROOMS['for 1 guests']['values'], capacitySelectItems);
 
