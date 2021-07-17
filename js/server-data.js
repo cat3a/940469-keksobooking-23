@@ -3,11 +3,11 @@ import {showAlert} from './utils.js';
 import {enableMapFilter, sendForm, showMessage} from './form.js';
 import {restoreParameters} from './map.js';
 
-const DATA_RECEVE_ADDRESS = 'https://23.javascript.pages.academy/keksobooking/data';
+const DATA_RECEIVE_ADDRESS = 'https://23.javascript.pages.academy/keksobooking/data';
 const FORM_SEND_ADDRESS = 'https://23.javascript.pages.academy/keksobooking';
 
 const createFetch = (onError = showAlert) => {
-  fetch(DATA_RECEVE_ADDRESS, {
+  fetch(DATA_RECEIVE_ADDRESS, {
     method: 'GET',
     credentials: 'same-origin',
   })
