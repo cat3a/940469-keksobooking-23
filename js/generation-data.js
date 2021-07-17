@@ -1,5 +1,8 @@
 import {getVerification} from './utils.js';
 
+const  PHOTO_WIDTH = 45;
+const  PHOTO_HEIGHT = 40;
+
 const HOME_TYPES = {
   'flat': 'Квартира',
   'bungalow': 'Бунгало',
@@ -50,8 +53,8 @@ const getTickets = (offer, author) => {
     for (const ticketPhoto of ticketPhotos) {
       const ticketPhotoElement = document.createElement('img');
       ticketPhotoElement.src = ticketPhoto;
-      ticketPhotoElement.width = 45;
-      ticketPhotoElement.height = 40;
+      ticketPhotoElement.width = PHOTO_WIDTH;
+      ticketPhotoElement.height = PHOTO_HEIGHT;
       ticketPhotoElement.alt = 'Фотография жилья';
       ticketPhotoElement.classList.add('popup__photo');
       ticketPhotosSelector.appendChild(ticketPhotoElement);

@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 7000;
+const DELAY_DEFAULT = 500;
 
 const getVerification = (selector, container, condition) => {
   if (condition) {
@@ -45,7 +46,7 @@ const showAlert = (message, messagePositionValue = '0', color = 'red') => {
   }, ALERT_SHOW_TIME);
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DELAY_DEFAULT) => {
   let timeoutId;
 
   return (...rest) => {
